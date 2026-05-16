@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div class="bg"></div>
+    <nav>
+        <img src="./asset/logo_long.png" height="30px">
+    </nav>
+    <section class="header-container">
+
+        <div class="header-container-title">
+            <h1>Boostez votre présence en ligne</h1>
+            <p>La gestion de communauté qui fait grandir votre business</p>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" target="_blank" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" target="_blank" aria-label="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            <button class="cta-btn modal-trigger">Prendre rendez-vous</button>
+        </div>
+
+        <div class="header-container-card">
+            <div class="insta-card">
+                <!-- Card Instagrame style -->
+                <div class="insta-header">
+                    <div class="user-info">
+                        <div class="avatar"></div>
+                        <span class="username">Maelsocialmedia</span>
+                    </div>
+                    <span>•••</span>
+                </div>
+                <div class="insta-image">
+                    <img src="https://i.pinimg.com/736x/fb/c7/45/fbc7457c8355644e75a0dac6311bf5ae.jpg"
+                        alt="Post Instagram">
+                </div>
+
+                <!-- Fake Graph -->
+                <div class="graph-line">
+                    <p>Boostez votre visibiliter</p>
+                    <svg viewBox="0 0 300 200">
+                        <polyline fill="none" stroke="url(#gradient)" stroke-width="4"
+                            points="0,180 60,140 120,120 180,80 240,40 300,20" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#6a11cb" />
+                                <stop offset="100%" stop-color="#2575fc" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="viewPreformance">
+                    <h2>Statistiques du compte</h2>
+                    <p class="stat-period">Derniers 30 jours</p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Comptes touchés</span>
+                            <span class="stat-value">+12.4k</span>
+                            <span class="stat-trend">↑ 24%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Interactions</span>
+                            <span class="stat-value">1,852</span>
+                            <span class="stat-trend">↑ 12%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Enregistrements</span>
+                            <span class="stat-value">428</span>
+                            <span class="stat-trend">↑ 8%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Taux d'engagement</span>
+                            <span class="stat-value">5.8%</span>
+                            <span class="stat-trend">↑ 2.1%</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+        <section class="card-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Parcours</h2>
+                <p>Mon Parcours </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>Tarif</h2>
+                <p>Tarifs de mes prestations</p>
+            </div>
+        </div>
+    </section>
+    <div class="modal-container">
+        <div class="overlay modal-trigger"></div>
+        <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="dialogDesc">
+            <button class="close-modal modal-trigger" aria-label="close modal">
+                x
+            </button>
+            <h1 id="modalTitle">Rendez-vous</h1>
+            <p>Prendre un rendez-vous aux horaires disponibles</p>
+            <div id="calendar"></div>
+        </div>
+    </div>
+</body>
+
+<script src="script/script.js"></script>
+</html>
