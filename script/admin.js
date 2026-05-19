@@ -30,6 +30,25 @@ function createCalendar(month, year) {
         calendar.appendChild(week);
     }
 }
+function getHours() {
+    const hours = document.querySelector("#hours-list");
+    hours.innerHTML = "";
 
+    for (let h = 6; h < 24; h++) {
+        let hour = document.createElement("div");
+        hour.innerHTML = `
+            <div class="item">
+                <div class="time">
+                    <span class="hour">${h.toString().padStart(2, '0')}h00</span>
+                </div>
+                <div class="checkbox-wrapper-6">
+                    <input class="tgl tgl-light" id="cb1-6-${h}" type="checkbox" />
+                    <label class="tgl-btn" for="cb1-6-${h}"></label>
+                </div>
+            </div>`;            
+        hours.appendChild(hour);
+    }
+}
 const currentDate = new Date();
 createCalendar(currentDate.getMonth(), currentDate.getFullYear());
+getHours()
