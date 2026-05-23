@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +5,7 @@
     text-decoration: none;
     list-style: none;
 }
+
 :root {
     --bg-primary: #18181a;
     --bg-secondary: #ffffff;
@@ -22,11 +22,10 @@ body {
     font-family: system-ui, -apple-system, sans-serif;
 }
 
-
 .card {
     height: 100%;
-    width: 100%;
-    background-color: var(--card-bg, #1e1e24); 
+    width: fit-content;
+    background-color: var(--card-bg, #1e1e24);
     border-radius: 24px;
     padding: 24px;
     display: flex;
@@ -43,7 +42,7 @@ body {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    padding: 20px; 
+    padding: 20px;
 }
 
 
@@ -54,19 +53,73 @@ body {
 
 }
 
-
-.toto{
+.nav {
+    height: 48px;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    padding: 6px;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.container-calebdar{
+.nav > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    font-weight: 500;
+    color: var(--text-sub);
+
+    cursor: pointer;
+    position: relative;
+
+}
+
+.nav > a:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.nav > a.actif {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+
+.nav > a:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+.toto {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-direction: row;
+
+    gap: 1rem;
+}
+
+.container-calebdar {
     flex: 2;
 }
 
-.container-horraire{
+.container-horraire {
     flex: 1.5;
+    height: 100%;
 }
 
 
@@ -75,13 +128,15 @@ body {
 }
 
 .card {
-    position: relative;
 
-    height: 100%;
+    min-height: 90vh;
+    
     width: 100%;
-    background-color: var(--card-bg, #1e1e24); 
+
+    background-color: var(--card-bg, #1e1e24);
     border-radius: 24px;
     padding: 24px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -117,12 +172,27 @@ body {
 
 .list {
     width: 100%;
-    height: 80vh;
-    overflow: scroll;
-    
+    height: 90%;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding-right: 6px;
+}
+
+.list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: var();
+    /* Couleur de fond */
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    /* Couleur de la poignée */
+    border-radius: 6px;
 }
 
 .item {
@@ -135,8 +205,8 @@ body {
     align-items: center;
     justify-content: space-between;
     transition: transform 0.2s ease, background 0.2s ease;
+     border: 1px solid rgba(255, 255, 255, 0.06);
 }
-
 
 .item:hover {
     background: rgba(255, 255, 255, 0.05);
@@ -150,19 +220,19 @@ body {
     padding: 8px 12px;
     border-radius: 12px;
     align-items: center;
-    min-width: 70px;
+    min-width: 50px;
 }
 
 .time .date {
     font-size: 0.85rem;
     font-weight: bold;
-    color: #a1a1aa; 
+    color: #a1a1aa;
 }
 
 .time .hour {
     font-size: 1rem;
     font-weight: bold;
-    color: #38bdf8; 
+    color: #38bdf8;
 }
 
 .info {
@@ -180,7 +250,7 @@ body {
 
 .info .client-email {
     font-size: 0.85rem;
-    color: #71717a; 
+    color: #71717a;
 }
 
 .status {
@@ -194,28 +264,44 @@ body {
 
 .status-confirmed {
     background: rgba(34, 197, 94, 0.15);
-    color: #4ade80; 
+    color: #4ade80;
 }
 
 .status-pending {
     background: rgba(234, 179, 8, 0.15);
-    color: #facc15; 
+    color: #facc15;
 }
 
 
 #calendar {
-    width: 100%;    
+    width: 100%;
+}
+
+#calendar tr {
+    position: relative;
+    display: flex;
+
+}
+
+#calendar td {
+    flex: 1;
+
+    aspect-ratio: 1 / 1;
 }
 
 #calendar td.day {
-
     text-align: center;
-    padding: 40px;
-    border: 1px solid var(--bg-secondary);
+    /* padding: 30px; */
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 6px;
     transition: 0.2s ease;
-
+    text-align: center;
+    justify-content: center;
     background-color: var(--bg-primary);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #calendar td.ok {
@@ -237,8 +323,128 @@ body {
     color: var(--text-secondary);
     font-weight: 600;
 }
-@media (max-width:1100px) {
-    .viewPreformance{
-        left: 0;
+
+
+@media (max-width: 768px) {
+
+    .adminD {
+        flex-direction: column-reverse;
+        height: fit-content;
     }
+
+    .card {
+        height: fit-content;
+    }
+
+    .toto {
+        flex-direction: column;
+    }
+
+    .list {
+        height: 30rem;
+    }
+}
+
+.form {
+    width: 100%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    font-weight: 500;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    padding: 12px 14px;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+
+    font-size: 0.95rem;
+
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+
+.field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.field input:hover,
+.field textarea:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    color: var(--text-primary);
+}
+
+input[type="file"]::file-selector-button {
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    border: none;
+    background: #38bdf8;
+    color: #0b0b0f;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    margin-right: 12px;
+
+    transition: 0.2s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
+
+
+button {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+
+    border: none;
+    background: #38bdf8;
+    color: #0b0b0f;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background: #0ea5e9;
 }

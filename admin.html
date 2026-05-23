@@ -14,8 +14,12 @@
     <section class="adminD">
         <div class="container">
             <div class="card">
+                <div class="nav">
+                    <a href="#calendar" class="actif nav-btn">Rendez-vous</a>
+                    <a href="#config" class="nav-btn">Configuration</a>
+                </div>
                 <h2>Organiser vos rendez-vous</h2>
-                <div class="toto">
+                <div class="toto" id="calendar-box">
                     <div class="container-calebdar">
                         <div id="calendar"></div>
                     </div>
@@ -34,7 +38,43 @@
                         </div>
                     </div>
                 </div>
+                 <div class="toto" id="config-box" style="display: none;">
+                    <form class="form" >
 
+                        <div class="field">
+                            <label for="instagram">Instagram</label>
+                            <input id="instagram" type="text" placeholder="@toncompte">
+                        </div>
+
+                        <div class="field">
+                            <label for="tiktok">TikTok</label>
+                            <input id="tiktok" type="text" placeholder="@toncompte">
+                        </div>
+
+                        <div class="field">
+                            <label for="twitter">Twitter</label>
+                            <input id="twitter" type="text" placeholder="@toncompte">
+                        </div>
+
+                        <div class="field">
+                            <label for="image">Upload image</label>
+                            <input id="image" type="file" accept="image/*">
+                        </div>
+
+                        <div class="field">
+                            <label for="parcours">Parcours</label>
+                            <textarea id="parcours" placeholder="Décris ton parcours..."></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="tarif">Tarifs</label>
+                            <textarea id="tarif" placeholder="Ex: 50€/h ..."></textarea>
+                        </div>
+
+                        <button type="submit">Enregistrer</button>
+
+                    </form>
+                </div>
             </div>
         </div>
         <div class="container container2">
@@ -54,6 +94,7 @@
                             Confirmé
                         </div>
                     </div>
+                    
                 </div>
             </div>
     </section>

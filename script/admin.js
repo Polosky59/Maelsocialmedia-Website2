@@ -1,3 +1,29 @@
+const navBTN = document.querySelectorAll(".nav-btn")
+
+navBTN.forEach((currentValue, index, array) => {
+    currentValue.addEventListener("click", function (e) {
+        const calendar = document.querySelector("#calendar-box")
+        const config = document.querySelector("#config-box")
+
+        navBTN.forEach((e)=>{
+            e.classList.remove("actif")
+        })
+
+        currentValue.classList.add("actif")
+
+        if (e.target.innerText == "Configuration") {
+            calendar.style.display = "none";
+            config.style.display = "";
+           
+
+        }
+        if (e.target.innerText == "Rendez-vous") {
+            calendar.style.display = "";
+            config.style.display = "none";
+        }
+    })
+});
+
 function getDaysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
 }
@@ -20,6 +46,7 @@ function createCalendar(month, year) {
             } else {
                 let day = document.createElement('td');
                 day.innerText = date;
+
                 day.classList.add("day")
 
                 day.classList.add("ok")
@@ -30,6 +57,7 @@ function createCalendar(month, year) {
         calendar.appendChild(week);
     }
 }
+
 function getHours() {
     const hours = document.querySelector("#hours-list");
     hours.innerHTML = "";
@@ -45,10 +73,11 @@ function getHours() {
                     <input class="tgl tgl-light" id="cb1-6-${h}" type="checkbox" />
                     <label class="tgl-btn" for="cb1-6-${h}"></label>
                 </div>
-            </div>`;            
+            </div>`;
         hours.appendChild(hour);
     }
 }
+
 const currentDate = new Date();
 createCalendar(currentDate.getMonth(), currentDate.getFullYear());
 getHours()

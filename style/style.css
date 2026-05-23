@@ -398,7 +398,6 @@ polyline {
 }
 
 .modal-container.active {
-    /* display: block; */
     transition: visibility 0s;
     visibility: visible;
 }
