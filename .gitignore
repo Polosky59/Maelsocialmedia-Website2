@@ -1,0 +1,24 @@
+# Dépendances
+node_modules/
+
+# Logs
+npm-debug.log*
+logs/
+
+# Variables d'environnement sensibles
+.env
+.env.local
+.env.*.local
+
+# Fichiers de build et outils
+coverage/
+.nyc_output/
+dist/
+build/
+
+# IDE et OS
+.idea/
+.vscode/
+*.swp
+.DS_Store   
+*.db
