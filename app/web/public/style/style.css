@@ -420,8 +420,8 @@ polyline {
 .modal {
     opacity: 0;
     width: 95%;
-    max-width: 400px;
-    min-width: 300px;
+    max-width: 500px;
+    min-width: 700px;
 
     padding: 30px;
 

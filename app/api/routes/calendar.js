@@ -7,12 +7,15 @@ router.post('/add', (req, res) => {
     const date = `${req.body["date"]} - ${req.body["hour"]}`;
     console.log(date);
 
+    const uuid = crypto.randomUUID();
+    console.log(uuid);
+
     const sql = `
-        INSERT INTO meting (date)
-        VALUES (?)
+        INSERT INTO meting (date,link_confirme)
+        VALUES (?,?)
     `;
 
-    db.run(sql, [date], function (err) {
+    db.run(sql, [date,uuid], function (err) {
         if (err) {
             if (err.code === "SQLITE_CONSTRAINT") {
                 const sql2 = `

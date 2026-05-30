@@ -7,7 +7,6 @@ function toggleModal() {
     modalContainer.classList.toggle("active")
 }
 
-
 function getDaysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
 }
@@ -45,4 +44,4 @@ function createCalendar(month, year) {
 }
 
 const currentDate = new Date();
-createCalendar(currentDate.getMonth(), currentDate.getFullYear());
+// createCalendar(currentDate.getMonth(), currentDate.getFullYear());

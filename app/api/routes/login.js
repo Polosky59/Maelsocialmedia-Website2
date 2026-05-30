@@ -5,7 +5,7 @@ const router = express.Router();
 
 const path = require('path');
 
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const createTokenFromJson = (jsonData, options = {}) => {
     const token = jwt.sign(jsonData, process.env.JWT_SECRET, options)
@@ -13,8 +13,11 @@ const createTokenFromJson = (jsonData, options = {}) => {
 }
 
 router.post("/", function (req, res) {
+    
     const username = req.body["username"]
     const password = req.body["password"]
+
+    console.log(process.env.ADMIN_USER)
 
     if (username == process.env.ADMIN_USER && password == process.env.ADMIN_PASSWORD) {
         const token = createTokenFromJson(username)
