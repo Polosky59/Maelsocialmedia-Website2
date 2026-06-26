@@ -11,9 +11,9 @@ const db = new sqlite3.Database('db/ma_base.db', (err) => {
 const createTableSql = `
     CREATE TABLE IF NOT EXISTS meting (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT UNIQUE NOT NULL,
+        date TIMESTAMP NOt NULL UNIQUE,
         name TEXT,
-        email TEXT UNIQUE,
+        email TEXT,
         confirme INTEGER DEFAULT 0,
         link_confirme TEXT UNIQUE
     )

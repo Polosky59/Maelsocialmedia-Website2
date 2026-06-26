@@ -12,16 +12,11 @@ const Routerlogin = require('./routes/login');
 
 const db = require('./db/db');
 
-
 app.use(cookieParser());
-const verifyToken = require('./Middleware/authMiddleware');
-
 app.use(express.static(path.join(webPath, "public")));
-
-
 app.use(express.json())
 
-//==========================================//
+const verifyToken = require('./Middleware/authMiddleware');
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(webPath, "index.html"));
@@ -45,11 +40,8 @@ app.get("/confirme/:id", (req, res) => {
         if (err) {
             console.log("Erreur insert :", err.message);
             return res.sendStatus(500);
-
         }
     })
-
-
     res.send(req.params.id)
 })
 

@@ -5,31 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-
     <link rel="stylesheet" href="style/admin.css">
     <link rel="stylesheet" href="./style/check.css">
 </head>
-
 <body>
     <section class="adminD">
         <div class="container">
             <div class="card">
-                <div class="nav">
-                    <a href="#calendar" class="actif nav-btn">Rendez-vous</a>
-                    <a href="#config" class="nav-btn">Configuration</a>
-                </div>
                 <h2>Organiser vos rendez-vous</h2>
                 <div class="toto" id="calendar-box">
                     <div class="container-calebdar">
                         <div id="calendar"></div>
                     </div>
                     <div class="container-horraire">
-                        <h2 id="day">06/05/2027</h2>
+                        <h2 id="day"></h2>
                         <div id="hours-list" class="list">
                             <div class="item">
-                                <div class="time">
-                                    <span class="hour">15h00</span>
-                                </div>
                                 <div class="checkbox-wrapper-6">
                                     <input class="tgl tgl-light" id="cb1-6" type="checkbox" />
                                     <label class="tgl-btn" for="cb1-6">
@@ -38,67 +29,16 @@
                         </div>
                     </div>
                 </div>
-                 <div class="toto" id="config-box" style="display: none;">
-                    <form class="form" >
-
-                        <div class="field">
-                            <label for="instagram">Instagram</label>
-                            <input id="instagram" type="text" placeholder="@toncompte">
-                        </div>
-
-                        <div class="field">
-                            <label for="tiktok">TikTok</label>
-                            <input id="tiktok" type="text" placeholder="@toncompte">
-                        </div>
-
-                        <div class="field">
-                            <label for="twitter">Twitter</label>
-                            <input id="twitter" type="text" placeholder="@toncompte">
-                        </div>
-
-                        <div class="field">
-                            <label for="image">Upload image</label>
-                            <input id="image" type="file" accept="image/*">
-                        </div>
-
-                        <div class="field">
-                            <label for="parcours">Parcours</label>
-                            <textarea id="parcours" placeholder="Décris ton parcours..."></textarea>
-                        </div>
-
-                        <div class="field">
-                            <label for="tarif">Tarifs</label>
-                            <textarea id="tarif" placeholder="Ex: 50€/h ..."></textarea>
-                        </div>
-
-                        <button type="submit">Enregistrer</button>
-
-                    </form>
-                </div>
             </div>
         </div>
         <div class="container container2">
-            <div  class="card aling-start">
+            <div class="card aling-start">
                 <h2>Vos rendez-vous</h2>
                 <div id="meting" class="list">
-                    <div  class="item">
-                        <div class="time">
-                            <span class="date">16/06</span>
-                            <span class="hour">15h00</span>
-                        </div>
-                        <div class="info">
-                            <span class="client-name">Toto</span>
-                            <span class="client-email">toto@gmail.com</span>
-                        </div>
-                        <div class="status status-confirmed">
-                            Confirmé
-                        </div>
-                    </div>
-                    
+                    <p style="color: gray;" class="subtitle">Aucun rendez-vous pour le moment</p>
                 </div>
             </div>
     </section>
 </body>
 <script src="./script/admin.js"></script>
-
 </html>

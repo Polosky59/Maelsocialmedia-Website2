@@ -7,17 +7,17 @@
     <title>toto</title>
     <link rel="stylesheet" href="/style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
-<div class="bg"></div>
+    <div class="bg"></div>
     <nav>
         <img src="./asset/logo_long.png" height="30px">
     </nav>
     <section class="header-container">
-
         <div class="header-container-title">
-            <h1>Boostez votre présence en ligne</h1>
+            <h1>Boostez votre <br>présence en ligne</h1>
             <p>La gestion de communauté qui fait grandir votre business</p>
             <div class="social-links">
                 <a href="#" target="_blank" aria-label="Instagram">
@@ -35,7 +35,6 @@
 
         <div class="header-container-card">
             <div class="insta-card">
-                <!-- Card Instagrame style -->
                 <div class="insta-header">
                     <div class="user-info">
                         <div class="avatar"></div>
@@ -43,12 +42,7 @@
                     </div>
                     <span>•••</span>
                 </div>
-                <div class="insta-image">
-                    <img src="https://i.pinimg.com/736x/fb/c7/45/fbc7457c8355644e75a0dac6311bf5ae.jpg"
-                        alt="Post Instagram">
-                </div>
-
-                <!-- Fake Graph -->
+                <div class="insta-image"></div>
                 <div class="graph-line">
                     <p>Boostez votre visibiliter</p>
                     <svg viewBox="0 0 300 200">
@@ -62,7 +56,6 @@
                         </defs>
                     </svg>
                 </div>
-
                 <div class="viewPreformance">
                     <h2>Statistiques du compte</h2>
                     <p class="stat-period">Derniers 30 jours</p>
@@ -89,17 +82,33 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </section>
-        <section class="card-container">
+    <section class="card-container">
         <div class="card">
             <div class="card-header">
                 <h2>Parcours</h2>
                 <p>Mon Parcours </p>
             </div>
+            <p class="card-text">
+                Titulaire d’un <strong>
+                    <span>BEP Électricien</span></strong>
+                , j’ai débuté mon parcours professionneldans le domaine de l’électricité,où j’ai développé
+                <strong>rigueur</strong>, <strong>autonomie</strong> et <strong>respect des normes de
+                    sécurité</strong>.
+                <br><br>J’ai ensuite choisi de me
+                reconvertir dans le <strong><span>secteur de la sécurité en obtenant le TFP APS</span></strong> (Agent
+                de Prévention et de Sécurité),
+                ce qui m’a permis d’acquérir des compétences en <strong>surveillance</strong>, <strong>prévention des
+                    risques</strong> et <strong>gestion des
+                    situations sensibles</strong>.
+                <br><br> Aujourd’hui, je suis une<strong><span> formation de Community Manager chez
+                        Wemodo</span></strong> afin de
+                développer mes compétences en communication digitale, gestion des réseaux sociaux et création de
+                contenu. Mon parcours illustre ma capacité d’adaptation, ma polyvalence et ma volonté de continuer à
+                évoluer professionnellement.
+            </p>
         </div>
         <div class="card">
             <div class="card-header">
@@ -116,10 +125,14 @@
             </button>
             <h1 id="modalTitle">Rendez-vous</h1>
             <p>Prendre un rendez-vous aux horaires disponibles</p>
-            <div id="calendar"></div>
+            <div class="dual">
+                <div id="calendar"></div>
+                <div class="rendez-vous">
+                    <div id="meting" class="list"></div>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
-
 <script src="script/script.js"></script>
+
 </html>

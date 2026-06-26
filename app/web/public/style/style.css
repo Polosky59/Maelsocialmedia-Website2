@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap'); */
 
 :root {
     --bg-primary: #18181a;
@@ -17,8 +17,6 @@
     list-style: none;
 }
 
-
-
 .bg {
     position: fixed;
     height: 100vh;
@@ -27,20 +25,18 @@
     background-image: url("../asset/bg.jpg");
     background-position: center;
     background-size: cover;
-    z-index: -1; 
+    z-index: -1;
 }
 
 body {
     position: relative;
 }
 
-h1,
+
 h2,
 .username {
     font-family: 'Montserrat', sans-serif;
 }
-
-
 
 nav {
     height: 4rem;
@@ -84,15 +80,20 @@ nav {
 
 .header-container-title>p {
     margin: 10px 0;
-    font-size: clamp(0.5rem, 1.5vw, 2.5rem);
+    font-size: clamp(0.5rem, 1.5vw, 1.5rem);
     color: var(--text-primary);
 }
 
-.header-container-title>h1 {
+body .header-container-title>h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
     font-size: clamp(1.5rem, 8vw, 5rem);
+
+    text-transform: uppercase;
+    letter-spacing: .01em;
+    line-height: .9;
 }
 
-/* btn */
 .cta-btn {
     margin-top: 20px;
     padding: 14px 28px;
@@ -160,8 +161,6 @@ nav {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
-
-/* Card Instagram */
 .insta-card {
     max-width: 450px;
     background: var(--bg-secondary);
@@ -198,14 +197,20 @@ nav {
     font-size: 14px;
 }
 
-.insta-image img {
-    width: 100%;
+.insta-image {
+    width: 450px;
+    height: 450px;
     display: block;
+
+    background-image: url("https://imgs.search.brave.com/ZUxm6xIAkl9-CMUfSauoP0m8466Bkq5JWgvngA40W-o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zZWxm/aXouZnIvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMDkvc2Vs/ZmllLWluc3RhZ3Jh/bS5qcGc");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 
-/* Fake graph */
 .graph-line {
     position: absolute;
     right: 0;
@@ -257,7 +262,7 @@ polyline {
 }
 
 .viewPreformance h2 {
-       font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
 
     margin-bottom: 4px;
 }
@@ -363,7 +368,7 @@ polyline {
 }
 
 .card-header h2 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
@@ -376,6 +381,21 @@ polyline {
     color: gray;
 }
 
+.card-text {
+    color: var(--text-primary);
+
+
+    padding: 15% 10%;
+
+    font-size: 18px;
+    line-height: 1.5;
+
+}
+
+.card-text span {
+    color: rgba(37, 117, 252, 1);
+    /* background-color: red; */
+}
 
 .modal-btn {
     padding: 10px 14px;
@@ -416,13 +436,12 @@ polyline {
     transition: opacity 0.4s ease-out;
 }
 
-
 .modal {
     opacity: 0;
-    width: 95%;
-    max-width: 500px;
-    min-width: 700px;
-
+    max-height: 80%;
+    overflow-x: auto;
+    width: 75%;
+    max-width: 400px;
     padding: 30px;
 
     background-color: var(--bg-primary);
@@ -431,7 +450,7 @@ polyline {
     border-radius: 5px;
 
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, calc(-50% - 50px));
     transition: opacity 0.4s ease-out,
@@ -476,25 +495,40 @@ polyline {
     margin-bottom: 10px;
 }
 
-
+.dual {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
 #calendar {
     width: 100%;
-    max-width: 350px;
+}
 
-    margin: auto auto;
+#calendar tr {
+    position: relative;
+    display: flex;
 
-    border-collapse: separate;
-    border-spacing: 4px;
-    color: var(--text-primary);
+}
+
+#calendar td {
+    flex: 1;
+    aspect-ratio: 1 / 1;
 }
 
 #calendar td.day {
     text-align: center;
-    padding: 12px;
-    border: 1px solid var(--bg-secondary);
+    /* padding: 30px; */
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 6px;
     transition: 0.2s ease;
+    text-align: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #calendar td.ok {
@@ -511,14 +545,14 @@ polyline {
     background: transparent;
 }
 
-#calendar td.selected {
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    font-weight: 600;
+#calendar td.select {
+    background: rgba(255, 255, 255, 0.08);
 }
 
+
+
 @media (max-width:1100px) {
-    .viewPreformance{
+    .viewPreformance {
         left: 0;
     }
 }
@@ -528,11 +562,12 @@ polyline {
         width: 100%;
     }
 
-    .header-container-title{
+    .header-container-title {
         text-align: center;
         align-items: center;
         justify-content: center;
     }
+
     .header-container-card {
         display: none;
     }
@@ -546,4 +581,127 @@ polyline {
     .card {
         width: 90%;
     }
+}
+
+.list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-right: 5px;
+
+}
+
+.item {
+    margin: .5rem 0;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease, background 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.time {
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 12px;
+    border-radius: 12px;
+    align-items: center;
+    min-width: 50px;
+}
+
+.time .date {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #a1a1aa;
+}
+
+.time .hour {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #38bdf8;
+}
+
+.list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: var();
+    /* Couleur de fond */
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    /* Couleur de la poignée */
+    border-radius: 6px;
+}
+
+
+.form {
+    width: 100%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.field input {
+    width: 90%;
+    padding: 12px 14px;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+
+    font-size: 0.95rem;
+
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.field input:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+button {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+
+    border: none;
+    background: #38bdf8;
+    color: #0b0b0f;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background: #0ea5e9;
 }

@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db');
+const nodemailer = require("nodemailer")
+const randomUUID = require("crypto")
 
-//todo moddifer en POST 
-router.post('/add', (req, res) => {
-    const date = `${req.body["date"]} - ${req.body["hour"]}`;
-    console.log(date);
+const verifyToken = require('../Middleware/authMiddleware');
 
+router.post('/add',verifyToken, (req, res) => {
+    const date = req.body["timestamp"]
     const uuid = crypto.randomUUID();
-    console.log(uuid);
 
     const sql = `
         INSERT INTO meting (date,link_confirme)
         VALUES (?,?)
     `;
 
-    db.run(sql, [date,uuid], function (err) {
+    db.run(sql, [date, uuid], function (err) {
         if (err) {
             if (err.code === "SQLITE_CONSTRAINT") {
                 const sql2 = `
@@ -37,23 +37,26 @@ router.post('/add', (req, res) => {
     });
 });
 
-//todo moddifer en POST 
-router.get('/lock', (req, res) => {
+router.post('/lock', (req, res) => {
+    const token = crypto.randomUUID();
+
     const sql = `
         UPDATE meting
-        SET nom = ?, email = ?, link_confirme = "1111"
+        SET name = ?, email = ?, link_confirme = ?
         WHERE date = ?
-        `
-    db.run(sql, ["toto", "toto@gmail.com", "10/02/2027/14h"], function (err) {
+    `;
+
+    db.run(sql, [req.body.username, req.body.email, token, req.body.date], function (err) {
         if (err) {
             console.log("Erreur insert :", err.message);
             return res.sendStatus(500);
         }
-    })
-    return res.sendStatus(200)
-})
 
-router.get('/confit/:id', (req, res) => {
+        return res.sendStatus(200);
+    });
+});
+
+router.get('/confirme/:id', (req, res) => {
     const id = req.params.id;
     const sql = `
         UPDATE meting
@@ -69,7 +72,7 @@ router.get('/confit/:id', (req, res) => {
     return res.json({ id });
 });
 
-router.get("/getAll", (req, res) => {
+router.get("/getAll",verifyToken,(req, res) => {
     const sql = `SELECT * FROM meting`;
 
     db.all(sql, [], (err, rows) => {
@@ -80,9 +83,8 @@ router.get("/getAll", (req, res) => {
     });
 });
 
-//todo modifier les renvois
 router.get("/getAllFree", (req, res) => {
-    const sql = `SELECT * FROM meting WHERE name IS NULL`;
+    const sql = `SELECT date FROM meting WHERE name IS NULL`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -91,5 +93,6 @@ router.get("/getAllFree", (req, res) => {
         return res.json(rows);
     });
 });
+
 
 module.exports = router;
