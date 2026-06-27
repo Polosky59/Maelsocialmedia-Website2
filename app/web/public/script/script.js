@@ -103,11 +103,11 @@ function getHour(data, selectedDate) {
                 <form class="form">
                     <div class="field">
                         <label>Username</label>
-                        <input id="username" type="text">
+                        <input id="username" type="text" autocomplete="off">
                     </div>
                     <div class="field">
                         <label>Email</label>
-                        <input id="email" type="text">
+                        <input id="email" type="email" autocomplete="off">
                     </div>
                     <button id="btn" type="submit">Enregistrer</button>
                 </form>
@@ -122,8 +122,6 @@ function getHour(data, selectedDate) {
 
                     const exactTimestamp = dt.getTime();
 
-                    console.log(exactTimestamp);
-
                     fetch("http://localhost:1515/api/calendar/lock", {
                         method: "POST",
                         headers: {
@@ -134,8 +132,31 @@ function getHour(data, selectedDate) {
                             email,
                             date: exactTimestamp
                         })
+                    }).then(response => {
+                        const dual = document.querySelector(".dual");
+                        dual.innerHTML = "";
+                        const message = document.createElement("p");
+                        message.classList.add("message");
+
+                        if (response.ok) {
+                            message.textContent = "Un mail de confirmation a été envoyé";
+                            message.style.color = "green";
+                        } else {
+                            message.textContent = "Une erreur est survenue.";
+                            message.style.color = "red";
+                        }
+                        dual.appendChild(message);
                     })
-                        .catch(error => console.error("Erreur:", error));
+                        .catch(error => {
+                            const dual = document.querySelector(".dual");
+                            dual.innerHTML = "";
+
+                            const message = document.createElement("p");
+                            message.textContent = "Une erreur est survenue.";
+                            message.style.color = "red";
+
+                            dual.appendChild(message);
+                        });
                 });
             });
             container.appendChild(met);
