@@ -42,7 +42,7 @@ app.get("/confirme/:id", (req, res) => {
             return res.sendStatus(500);
         }
     })
-    res.send(req.params.id)
+    res.sendFile(path.join(webPath, "confirme.html"));
 })
 
 app.use('/api/calendar', RouterCalendar);

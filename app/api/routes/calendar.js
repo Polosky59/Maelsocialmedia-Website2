@@ -3,10 +3,12 @@ const router = express.Router();
 const db = require('../db/db');
 const nodemailer = require("nodemailer")
 const randomUUID = require("crypto")
+const path = require('path');
 
 const verifyToken = require('../Middleware/authMiddleware');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-router.post('/add',verifyToken, (req, res) => {
+router.post('/add', verifyToken, (req, res) => {
     const date = req.body["timestamp"]
     const uuid = crypto.randomUUID();
 
@@ -14,7 +16,6 @@ router.post('/add',verifyToken, (req, res) => {
         INSERT INTO meting (date,link_confirme)
         VALUES (?,?)
     `;
-
     db.run(sql, [date, uuid], function (err) {
         if (err) {
             if (err.code === "SQLITE_CONSTRAINT") {
@@ -52,27 +53,30 @@ router.post('/lock', (req, res) => {
             return res.sendStatus(500);
         }
 
-        return res.sendStatus(200);
+        const subject = "Mail de vérification du rendez-vous"
+        const text = `liens pour confirmer le rendez-vous http://localhost:1515/confirme/${token}`
+
+        const from = process.env.EMAIL_NAME
+        const to = req.body.email
+
+        const transport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_NAME,
+                pass: process.env.EMAIL_APP_PASSWORD
+            }
+        })
+        transport.sendMail({
+            subject, text, from, to
+        }).then(() => {
+            return res.sendStatus(200);
+        }).catch(err => {
+            return res.sendStatus(500)
+        })
     });
 });
 
-router.get('/confirme/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = `
-        UPDATE meting
-        SET confirme = 1
-        where  link_confirme = ? 
-    `
-    db.run(sql, ["1111"], function (err) {
-        if (err) {
-            console.log("Erreur insert :", err.message);
-            return res.sendStatus(500);
-        }
-    })
-    return res.json({ id });
-});
-
-router.get("/getAll",verifyToken,(req, res) => {
+router.get("/getAll", verifyToken, (req, res) => {
     const sql = `SELECT * FROM meting`;
 
     db.all(sql, [], (err, rows) => {
@@ -93,6 +97,5 @@ router.get("/getAllFree", (req, res) => {
         return res.json(rows);
     });
 });
-
 
 module.exports = router;
