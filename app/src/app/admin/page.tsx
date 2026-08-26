@@ -1,3 +1,5 @@
+import "./style.css"
+
 export default function Page() {
     return (<section className="adminD">
         <div className="container">
