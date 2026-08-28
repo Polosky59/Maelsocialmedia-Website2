@@ -1,24 +1,25 @@
-const sqlite3 = require("sqlite3").verbose()
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
-const db = new sqlite3.Database("db/ma_base.db", (err) => {
-    if (err) {
-        console.error(err.message)
-    } else {
-        console.log("Connecté à SQLite")
-    }
-})
+// On exporte une fonction qui ouvre la connexion
+export async function openDb() {
+    const db = await open({
+        filename: "./ma_base.db",
+        driver: sqlite3.Database,
+    });
 
-const createTableSql = `
-    CREATE TABLE IF NOT EXISTS meting (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TIMESTAMP NOt NULL UNIQUE,
-        name TEXT,
-        email TEXT,
-        phone TEXT,
-        confirme INTEGER DEFAULT 0,
-        link_confirme TEXT UNIQUE
-    )
-`
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS meting (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            heure TEXT,
+            name TEXT,
+            email TEXT,
+            phone TEXT,
+            confirme INTEGER DEFAULT 0,
+            link_confirme TEXT UNIQUE
+        )
+    `);
 
-db.run(createTableSql)
-module.exports = db
+    return db;
+}

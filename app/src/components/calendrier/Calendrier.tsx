@@ -4,9 +4,11 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DataItem {
-    date?: string | number;
-    timestamp?: string | number;
+    date?: string;
+    heure?: string | null;
+    [key: string]: unknown;
 }
+
 export interface CalendrierProps {
     data?: DataItem[];
     selectedDate: number | null;
@@ -19,7 +21,7 @@ const DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 export default function Calendrier({ data = [], selectedDate, setSelectedDate }: CalendrierProps) {
     const currentDate = new Date();
 
-    const [day, setDay] = useState(currentDate.getDate());
+    const [day] = useState(currentDate.getDate());
     const [month, setMonth] = useState(currentDate.getMonth());
     const [year, setYear] = useState(currentDate.getFullYear());
 
@@ -29,6 +31,14 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
 
     const handleDayClick = (dayNum: number) => {
         setSelectedDate(dayNum);
+    };
+
+    const getEventCount = (dayNum: number) => {
+        const formattedMonth = String(month + 1).padStart(2, "0");
+        const formattedDay = String(dayNum).padStart(2, "0");
+        const dateStr = `${year}-${formattedMonth}-${formattedDay}`;
+
+        return data.filter((item) => item.date === dateStr).length;
     };
 
     const renderCalendar = () => {
@@ -42,39 +52,37 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
             for (let j = 0; j < 7; j++) {
                 if ((i === 0 && j < firstDayIndex) || date > daysInMonth) {
                     daysInWeek.push(
-                        <td key={`empty-${i}-${j}`} className="bg-zinc-950/60 border border-zinc-800/80">{ }</td>
+                        <td key={`empty-${i}-${j}`} className="bg-zinc-950/60 border border-zinc-800/80"></td>
                     );
-
                 } else {
                     const currentDayNum = date;
+                    const eventCount = getEventCount(currentDayNum);
+
                     daysInWeek.push(
                         <td
                             key={`day-${currentDayNum}`}
                             onClick={() => handleDayClick(currentDayNum)}
-                            className={`p-2 border border-zinc-800/80 cursor-pointer align-top 
-                                ${currentDayNum == selectedDate
-                                    ? "bg-zinc-900 font-bold"
-                                    : ""
-                                }`}>
-                            <div className="flex">
-                                <span className={` px-2 py-1 rounded-full  
-                                ${currentDayNum === day && month == currentDate.getMonth() && year == currentDate.getFullYear()
-                                        ? "bg-emerald-500/60 text-white font-bold"
-                                        : ""
-                                    }`}>
+                            className={`p-2 border border-zinc-800/80 cursor-pointer align-top ${
+                                currentDayNum === selectedDate ? "bg-zinc-900 font-bold" : ""
+                            }`}
+                        >
+                            <div className="flex items-center justify-between">
+                                <span
+                                    className={`px-2 py-1 rounded-full ${
+                                        currentDayNum === day &&
+                                        month === currentDate.getMonth() &&
+                                        year === currentDate.getFullYear()
+                                            ? "bg-emerald-500/60 text-white font-bold"
+                                            : ""
+                                    }`}
+                                >
                                     {currentDayNum}
                                 </span>
-                                {/* <span
-                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-rose-500 rounded-full ">
-                                    2
-                                </span>
-                                <span
-                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-orange-500 rounded-full ">
-                                    2
-                                </span><span
-                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-green-500 rounded-full ">
-                                    2
-                                </span> */}
+                                {eventCount > 0 && (
+                                    <span className="flex items-center justify-center h-5 px-1.5 text-xs text-white bg-rose-500 rounded-full font-bold">
+                                        {eventCount}
+                                    </span>
+                                )}
                             </div>
                         </td>
                     );
@@ -116,18 +124,19 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
                 <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800">
                     <button
                         className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
-                        onClick={handlePrevMonth}>
+                        onClick={handlePrevMonth}
+                    >
                         <ChevronLeft className="size-4" />
                     </button>
                     <button
                         className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
                         onClick={() => {
-                            setMonth(currentDate.getMonth())
-                            setYear(currentDate.getFullYear())
-                        }}>
-                        today
+                            setMonth(currentDate.getMonth());
+                            setYear(currentDate.getFullYear());
+                        }}
+                    >
+                        Aujourd'hui
                     </button>
-
                     <button
                         className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
                         onClick={handleNextMonth}
@@ -146,9 +155,7 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
                         ))}
                     </tr>
                 </thead>
-                <tbody className="border border-zinc-800/80 border-collapse " >
-                    {renderCalendar()}
-                </tbody>
+                <tbody className="border border-zinc-800/80 border-collapse">{renderCalendar()}</tbody>
             </table>
         </div>
     );

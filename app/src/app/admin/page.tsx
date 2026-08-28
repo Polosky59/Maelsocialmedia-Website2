@@ -5,28 +5,29 @@ import Calendrier from "@/components/calendrier/Calendrier";
 import { Clock, Calendar as CalendarIcon, Plus, Mail, Phone, CircleDot, X, Trash2 } from "lucide-react";
 import authAction from "./auth.action";
 import { useRouter } from "next/navigation";
+import { addDateAction, getDate } from "./Date.Action";
+import { get } from "http";
 
 export default function Page() {
-
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true)
-
+    const [selectedDate, setSelectedDate] = useState<number | null>(null);
+    const [date, setDate] = useState({})
     useEffect(() => {
+        const token = localStorage.getItem("accessToken");
         const checkAuth = async () => {
-            const token = localStorage.getItem("accessToken");
             if (!token) {
                 router.push("/");
                 return;
             }
-
             const auth = await authAction(token);
             if (!auth?.success) {
                 router.push("/");
             } else {
                 setIsLoading(false);
+                setDate(await getDate())
             }
         };
-
         checkAuth();
     }, [router]);
 
@@ -46,27 +47,24 @@ export default function Page() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setIsModalOpen(false);
-        setFormData({ date: "", time: "" });
-    };
+        addDateAction(formData.date, formData.time)
+    }
     if (isLoading) {
         return (
-            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
-               
-            </main>
+            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center"></main>
         );
     }
     return (
-
         <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex p-6 gap-6 font-sans relative">
             <div className="flex-[3] bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-6 flex gap-6 shadow-2xl overflow-hidden">
                 <div className="flex-[3] flex flex-col h-full">
-                    <Calendrier data={mockAppointments} />
+                    <Calendrier selectedDate={selectedDate} setSelectedDate={setSelectedDate} data={date.result} />
                 </div>
 
                 <div className="w-[1px] bg-zinc-800/80 my-2" />
                 <div className="flex-1 flex flex-col gap-4">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 px-1">
-                        Programme
+                        Programme {selectedDate}
                     </h3>
                     <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
 
