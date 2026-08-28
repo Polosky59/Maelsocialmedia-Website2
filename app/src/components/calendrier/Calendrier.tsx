@@ -22,8 +22,6 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
     const [day, setDay] = useState(currentDate.getDate());
     const [month, setMonth] = useState(currentDate.getMonth());
     const [year, setYear] = useState(currentDate.getFullYear());
-    // const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
-
 
     const getDaysInMonth = (m: number, y: number) => {
         return new Date(y, m + 1, 0).getDate();

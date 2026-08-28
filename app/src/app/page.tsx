@@ -44,7 +44,6 @@ export default function Page() {
           <Post></Post>
         </div>
       </section>
-
       <section className="card-container">
         <Card></Card>
         <div className="card">
