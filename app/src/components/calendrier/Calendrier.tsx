@@ -105,7 +105,7 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate, o
         }
         setMonth(newM);
         setYear(newY);
-        onMonthChange?.(newM + 1, newY); // +1 car JS compte de 0 à 11
+        onMonthChange?.(newM + 1, newY); 
     };
 
     const handleNextMonth = () => {
