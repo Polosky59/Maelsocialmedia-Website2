@@ -5,6 +5,7 @@ import Modal from "../components/modal/Modal";
 import Post from "@/components/Post";
 import Card from "@/components/Card";
 
+
 export default function Page() {
   const [openModal, setOpenModal] = useState(false)
 

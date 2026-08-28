@@ -7,21 +7,22 @@ interface DataItem {
     date?: string | number;
     timestamp?: string | number;
 }
-
-interface CalendrierProps {
+export interface CalendrierProps {
     data?: DataItem[];
+    selectedDate: number | null;
+    setSelectedDate: (day: number) => void;
 }
 
 const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 const DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 
-export default function Calendrier({ data = [] }: CalendrierProps) {
+export default function Calendrier({ data = [], selectedDate, setSelectedDate }: CalendrierProps) {
     const currentDate = new Date();
 
     const [day, setDay] = useState(currentDate.getDate());
     const [month, setMonth] = useState(currentDate.getMonth());
     const [year, setYear] = useState(currentDate.getFullYear());
-    const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
+    // const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
 
 
     const getDaysInMonth = (m: number, y: number) => {
@@ -65,7 +66,7 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
                                     }`}>
                                     {currentDayNum}
                                 </span>
-                                <span
+                                {/* <span
                                     className="flex items-center justify-center  h-5 px-1.5   text-white bg-rose-500 rounded-full ">
                                     2
                                 </span>
@@ -75,7 +76,7 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
                                 </span><span
                                     className="flex items-center justify-center  h-5 px-1.5   text-white bg-green-500 rounded-full ">
                                     2
-                                </span>
+                                </span> */}
                             </div>
                         </td>
                     );
