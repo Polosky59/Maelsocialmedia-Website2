@@ -37,8 +37,6 @@ export default function Page() {
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 px-1">
                         Programme
                     </h3>
-
-
                     <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
 
                         <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium">
