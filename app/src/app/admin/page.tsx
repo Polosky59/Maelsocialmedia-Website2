@@ -51,18 +51,7 @@ export default function Page() {
     if (isLoading) {
         return (
             <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3">
-                    <p className="text-sm text-zinc-400 font-medium">Vérification de la session...</p>
-                </div>
-            </main>
-        );
-    }
-    if (isLoading) {
-        return (
-            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3">
-                    <p className="text-sm text-zinc-400 font-medium"></p>
-                </div>
+               
             </main>
         );
     }
