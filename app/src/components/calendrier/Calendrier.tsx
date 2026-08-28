@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DataItem {
     date?: string | number;
@@ -11,19 +12,24 @@ interface CalendrierProps {
     data?: DataItem[];
 }
 
+const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+const DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+
 export default function Calendrier({ data = [] }: CalendrierProps) {
     const currentDate = new Date();
 
+    const [day, setDay] = useState(currentDate.getDate());
     const [month, setMonth] = useState(currentDate.getMonth());
     const [year, setYear] = useState(currentDate.getFullYear());
-    const [selectedDateText, setSelectedDateText] = useState("");
+    const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
+
 
     const getDaysInMonth = (m: number, y: number) => {
         return new Date(y, m + 1, 0).getDate();
     };
 
     const handleDayClick = (dayNum: number) => {
-        setSelectedDateText(`${dayNum}/${month + 1}/${year}`);
+        setSelectedDate(dayNum);
     };
 
     const renderCalendar = () => {
@@ -32,33 +38,45 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
         const firstDayIndex = new Date(year, month, 1).getDay();
         let date = 1;
 
-
         for (let i = 0; i < 6; i++) {
             const daysInWeek = [];
             for (let j = 0; j < 7; j++) {
                 if ((i === 0 && j < firstDayIndex) || date > daysInMonth) {
                     daysInWeek.push(
-                        <td key={`empty-${i}-${j}`}>{ }</td>
+                        <td key={`empty-${i}-${j}`} className="bg-zinc-950/60 border border-zinc-800/80">{ }</td>
                     );
 
                 } else {
                     const currentDayNum = date;
-                    const hasData = data.some((d) => {
-                        const dt = new Date(Number(d.date || d.timestamp));
-                        return (
-                            dt.getDate() === currentDayNum &&
-                            dt.getMonth() === month &&
-                            dt.getFullYear() === year
-                        );
-                    });
                     daysInWeek.push(
                         <td
                             key={`day-${currentDayNum}`}
                             onClick={() => handleDayClick(currentDayNum)}
-                            className="p-2 border border-zinc-800/80 cursor-pointer transition-all duration-150 relative align-top h-16 w-1/7 hover:bg-zinc-800/50">
-
-
-                            {currentDayNum}
+                            className={`p-2 border border-zinc-800/80 cursor-pointer align-top 
+                                ${currentDayNum == selectedDate
+                                    ? "bg-zinc-900 font-bold"
+                                    : ""
+                                }`}>
+                            <div className="flex">
+                                <span className={` px-2 py-1 rounded-full  
+                                ${currentDayNum === day && month == currentDate.getMonth() && year == currentDate.getFullYear()
+                                        ? "bg-emerald-500/60 text-white font-bold"
+                                        : ""
+                                    }`}>
+                                    {currentDayNum}
+                                </span>
+                                <span
+                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-rose-500 rounded-full ">
+                                    2
+                                </span>
+                                <span
+                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-orange-500 rounded-full ">
+                                    2
+                                </span><span
+                                    className="flex items-center justify-center  h-5 px-1.5   text-white bg-green-500 rounded-full ">
+                                    2
+                                </span>
+                            </div>
                         </td>
                     );
                     date++;
@@ -71,11 +89,65 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
         }
         return weeks;
     };
+
+    const handlePrevMonth = () => {
+        if (month === 0) {
+            setMonth(11);
+            setYear(year - 1);
+        } else {
+            setMonth(month - 1);
+        }
+    };
+
+    const handleNextMonth = () => {
+        if (month === 11) {
+            setMonth(0);
+            setYear(year + 1);
+        } else {
+            setMonth(month + 1);
+        }
+    };
+
     return (
-        <div className="text-white h-full w-full">
-            <p>Sélection : {selectedDateText || "Aucune"}</p>
+        <div className="flex flex-col h-full w-full text-zinc-100 select-none">
+            <div className="flex items-center justify-between mb-6 px-2">
+                <h2 className="text-xl font-semibold capitalize tracking-wide text-zinc-100">
+                    {MONTHS[month]} <span className="text-zinc-500 font-normal">{year}</span>
+                </h2>
+                <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800">
+                    <button
+                        className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
+                        onClick={handlePrevMonth}>
+                        <ChevronLeft className="size-4" />
+                    </button>
+                    <button
+                        className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
+                        onClick={() => {
+                            setMonth(currentDate.getMonth())
+                            setYear(currentDate.getFullYear())
+                        }}>
+                        today
+                    </button>
+
+                    <button
+                        className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
+                        onClick={handleNextMonth}
+                    >
+                        <ChevronRight className="size-4" />
+                    </button>
+                </div>
+            </div>
             <table className="h-full w-full">
-                <tbody >
+                <thead>
+                    <tr>
+                        {DAYS.map((day) => (
+                            <th key={day} className="pb-3 text-xs font-medium text-zinc-500 uppercase tracking-wider text-center">
+                                {day}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className="border border-zinc-800/80 border-collapse " >
                     {renderCalendar()}
                 </tbody>
             </table>
