@@ -13,12 +13,13 @@ export interface CalendrierProps {
     data?: DataItem[];
     selectedDate: number | null;
     setSelectedDate: (day: number) => void;
+    onMonthChange?: (newMonth: number, newYear: number) => void;
 }
 
 const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 const DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 
-export default function Calendrier({ data = [], selectedDate, setSelectedDate }: CalendrierProps) {
+export default function Calendrier({ data = [], selectedDate, setSelectedDate, onMonthChange }: CalendrierProps) {
     const currentDate = new Date();
 
     const [day] = useState(currentDate.getDate());
@@ -62,19 +63,17 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
                         <td
                             key={`day-${currentDayNum}`}
                             onClick={() => handleDayClick(currentDayNum)}
-                            className={`p-2 border border-zinc-800/80 cursor-pointer align-top ${
-                                currentDayNum === selectedDate ? "bg-zinc-900 font-bold" : ""
-                            }`}
+                            className={`p-2 border border-zinc-800/80 cursor-pointer align-top ${currentDayNum === selectedDate ? "bg-zinc-900 font-bold" : ""
+                                }`}
                         >
                             <div className="flex items-center justify-between">
                                 <span
-                                    className={`px-2 py-1 rounded-full ${
-                                        currentDayNum === day &&
+                                    className={`px-2 py-1 rounded-full ${currentDayNum === day &&
                                         month === currentDate.getMonth() &&
                                         year === currentDate.getFullYear()
-                                            ? "bg-emerald-500/60 text-white font-bold"
-                                            : ""
-                                    }`}
+                                        ? "bg-emerald-500/60 text-white font-bold"
+                                        : ""
+                                        }`}
                                 >
                                     {currentDayNum}
                                 </span>
@@ -98,21 +97,36 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
     };
 
     const handlePrevMonth = () => {
+        let newM = month - 1;
+        let newY = year;
         if (month === 0) {
-            setMonth(11);
-            setYear(year - 1);
-        } else {
-            setMonth(month - 1);
+            newM = 11;
+            newY = year - 1;
         }
+        setMonth(newM);
+        setYear(newY);
+        onMonthChange?.(newM + 1, newY); // +1 car JS compte de 0 à 11
     };
 
     const handleNextMonth = () => {
+        let newM = month + 1;
+        let newY = year;
         if (month === 11) {
-            setMonth(0);
-            setYear(year + 1);
-        } else {
-            setMonth(month + 1);
+            newM = 0;
+            newY = year + 1;
         }
+        setMonth(newM);
+        setYear(newY);
+        onMonthChange?.(newM + 1, newY);
+    };
+
+    const handleTodayClick = () => {
+        const now = new Date();
+        const m = now.getMonth();
+        const y = now.getFullYear();
+        setMonth(m);
+        setYear(y);
+        onMonthChange?.(m + 1, y);
     };
 
     return (
@@ -131,8 +145,7 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate }:
                     <button
                         className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition"
                         onClick={() => {
-                            setMonth(currentDate.getMonth());
-                            setYear(currentDate.getFullYear());
+                            handleTodayClick
                         }}
                     >
                         Aujourd'hui

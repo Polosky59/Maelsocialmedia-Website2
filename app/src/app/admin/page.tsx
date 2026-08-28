@@ -1,18 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Calendrier from "@/components/calendrier/Calendrier";
 import { Clock, Calendar as CalendarIcon, Plus, Mail, Phone, CircleDot, X, Trash2 } from "lucide-react";
 import authAction from "./auth.action";
 import { useRouter } from "next/navigation";
 import { addDateAction, getDate } from "./Date.Action";
-import { get } from "http";
+
+interface Meeting {
+    id?: number | string;
+    date: string;
+    heure?: string | null;
+    name?: string | null;
+    email?: string | null;
+    phone?: string | null;
+}
 
 export default function Page() {
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState<number | null>(null);
-    const [date, setDate] = useState({})
+    const [date, setDate] = useState<{ success?: boolean; result?: Meeting[] }>({});
+
+    const now = new Date();
+    const [currentMonth, setCurrentMonth] = useState(now.getMonth() + 1);
+    const [currentYear, setCurrentYear] = useState(now.getFullYear());
+
+    const currentMonthStr = String(currentMonth).padStart(2, "0");
+    const currentYearStr = String(currentYear);
+
+    const loadAppointments = useCallback(async (m: string, y: string) => {
+        const fetchedData = await getDate(m, y);
+        setDate(fetchedData);
+    }, []);
+
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
         const checkAuth = async () => {
@@ -25,12 +46,11 @@ export default function Page() {
                 router.push("/");
             } else {
                 setIsLoading(false);
-                setDate(await getDate())
+                await loadAppointments(currentMonthStr, currentYearStr);
             }
         };
         checkAuth();
-    }, [router]);
-
+    }, [router, loadAppointments, currentMonthStr, currentYearStr]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -38,71 +58,120 @@ export default function Page() {
         time: ""
     });
 
-    const mockAppointments = [
-        { date: new Date().getTime() },
-        { date: new Date().getTime() },
-        { date: new Date(2026, 7, 15).getTime() },
-    ];
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsModalOpen(false);
-        addDateAction(formData.date, formData.time)
-    }
+        await addDateAction(formData.date, formData.time);
+        await loadAppointments(currentMonthStr, currentYearStr);
+    };
+
+    const handleMonthChange = async (newMonth: number, newYear: number) => {
+        setCurrentMonth(newMonth);
+        setCurrentYear(newYear);
+        setSelectedDate(null); 
+        const formattedM = String(newMonth).padStart(2, "0");
+        const formattedY = String(newYear);
+
+        const newData = await getDate(formattedM, formattedY);
+        setDate(newData);
+    };
+
+    const selectedDateStr = selectedDate
+        ? `${currentYearStr}-${currentMonthStr}-${String(selectedDate).padStart(2, "0")}`
+        : null;
+
+    const selectedAppointments = date.result
+        ? date.result.filter((item) => item.date === selectedDateStr)
+        : [];
+
     if (isLoading) {
         return (
             <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center"></main>
         );
     }
+
     return (
         <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex p-6 gap-6 font-sans relative">
             <div className="flex-[3] bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-6 flex gap-6 shadow-2xl overflow-hidden">
                 <div className="flex-[3] flex flex-col h-full">
-                    <Calendrier selectedDate={selectedDate} setSelectedDate={setSelectedDate} data={date.result} />
+                    <Calendrier
+                        selectedDate={selectedDate}
+                        setSelectedDate={setSelectedDate}
+                        data={date.result}
+                        onMonthChange={handleMonthChange}
+                    />
                 </div>
 
                 <div className="w-[1px] bg-zinc-800/80 my-2" />
-                <div className="flex-1 flex flex-col gap-4">
+
+                <div className="flex-1 flex flex-col gap-4 h-full overflow-hidden">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 px-1">
-                        Programme {selectedDate}
+                        Programme {selectedDate ? `du ${selectedDate}` : ""}
                     </h3>
-                    <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
 
-                        <div className="flex items-center gap-2 text-indigo-400 text-sm font-medium">
-
-                            <CalendarIcon className="size-4" />
-                            <span>8 Août 2026</span>
-                            <button
-                                type="button"
-                                className="p-2 rounded-lg text-red-400"
-                                title="Supprimer"
-                            >
-                                <Trash2 className="size-4" />
-                            </button>
-                        </div>
-                        <div className="flex items-center gap-2 text-zinc-400 text-xs">
-                            <Clock className="size-3.5" />
-                            <span>10:00 - 11:00</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                <CircleDot className="size-3" />
-                                Ouvert
-                            </span>
-                        </div>
-
-                        <div className="mt-2 pt-3 border-t border-zinc-800/60 text-left">
-                            <p className="text-xs font-semibold text-zinc-200">Rendez-vous avec toto</p>
-                            <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
-                                <Mail className="size-3.5 mr-1" />
-                                <p>Email : toto@gmail.com</p>
+                    <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1">
+                        {!selectedDate ? (
+                            <div className="flex-1 flex items-center justify-center text-xs text-zinc-500 text-center p-4">
+                                Sélectionnez un jour sur le calendrier pour voir les rendez-vous.
                             </div>
-                            <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
-                                <Phone className="size-3.5 mr-1" />
-                                <p>Phone : +33 58 58 58 58</p>
+                        ) : selectedAppointments.length === 0 ? (
+                            <div className="flex-1 flex items-center justify-center text-xs text-zinc-500 text-center p-4">
+                                Aucun rendez-vous prévu le {selectedDateStr}.
                             </div>
-                        </div>
+                        ) : (
+                            selectedAppointments.map((meeting, index) => (
+                                <div key={meeting.id || index} className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
+                                    <div className="flex items-center justify-between text-indigo-400 text-sm font-medium">
+                                        <div className="flex items-center gap-2">
+                                            <CalendarIcon className="size-4" />
+                                            <span>{meeting.date}</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 transition-colors"
+                                            title="Supprimer"
+                                        >
+                                            <Trash2 className="size-4" />
+                                        </button>
+                                    </div>
 
+                                    <div className="flex items-center gap-2 text-zinc-400 text-xs">
+                                        <Clock className="size-3.5" />
+                                        <span>{meeting.heure || "Heure non spécifiée"}</span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                            <CircleDot className="size-3" />
+                                            Confirmé
+                                        </span>
+                                    </div>
+
+                                    {(meeting.name || meeting.email || meeting.phone) && (
+                                        <div className="mt-2 pt-3 border-t border-zinc-800/60 text-left">
+                                            {meeting.name && (
+                                                <p className="text-xs font-semibold text-zinc-200">
+                                                    Rendez-vous avec {meeting.name}
+                                                </p>
+                                            )}
+                                            {meeting.email && (
+                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
+                                                    <Mail className="size-3.5 mr-1" />
+                                                    <p>Email : {meeting.email}</p>
+                                                </div>
+                                            )}
+                                            {meeting.phone && (
+                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
+                                                    <Phone className="size-3.5 mr-1" />
+                                                    <p>Tél : {meeting.phone}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))
+                        )}
                     </div>
 
                     <button
@@ -159,7 +228,7 @@ export default function Page() {
                                 >
                                     Annuler
                                 </button>
-                                <button type="submit" className="px-3 py-1.5 text-xs font-medium bg-emerald-600  text-white rounded-lg ">
+                                <button type="submit" className="px-3 py-1.5 text-xs font-medium bg-emerald-600 text-white rounded-lg">
                                     Ajouter
                                 </button>
                             </div>
