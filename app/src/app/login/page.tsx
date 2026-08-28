@@ -3,9 +3,11 @@
 import { User, Lock } from 'lucide-react';
 import { useState } from 'react';
 import loginAction from './login.action';
+import { useRouter } from "next/navigation";
 
 export default function Page() {
     const [formData, setFormData] = useState({ username: "", password: "" });
+    const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,9 +18,9 @@ export default function Page() {
         const auth = await loginAction(formData.username, formData.password)
         if (auth.success && auth.token) {
             localStorage.setItem("accessToken", auth.token);
+            router.push("/admin");
         }
     }
-
 
     return (
         <main className="h-screen w-full bg-zinc-950 flex justify-center items-center p-4">

@@ -1,15 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendrier from "@/components/calendrier/Calendrier";
 import { Clock, Calendar as CalendarIcon, Plus, Mail, Phone, CircleDot, X, Trash2 } from "lucide-react";
+import authAction from "./auth.action";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                router.push("/");
+                return;
+            }
+
+            const auth = await authAction(token);
+            if (!auth?.success) {
+                router.push("/");
+            } else {
+                setIsLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, [router]);
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
-        title: "",
-        email: "",
-        phone: "",
         date: "",
         time: ""
     });
@@ -23,9 +46,28 @@ export default function Page() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setIsModalOpen(false);
-        setFormData({ title: "", email: "", phone: "", date: "", time: "" });
+        setFormData({ date: "", time: "" });
     };
+    if (isLoading) {
+        return (
+            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <p className="text-sm text-zinc-400 font-medium">Vérification de la session...</p>
+                </div>
+            </main>
+        );
+    }
+    if (isLoading) {
+        return (
+            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <p className="text-sm text-zinc-400 font-medium"></p>
+                </div>
+            </main>
+        );
+    }
     return (
+
         <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex p-6 gap-6 font-sans relative">
             <div className="flex-[3] bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-6 flex gap-6 shadow-2xl overflow-hidden">
                 <div className="flex-[3] flex flex-col h-full">
