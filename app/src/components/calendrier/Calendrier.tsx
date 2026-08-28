@@ -30,16 +30,17 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
         const weeks = [];
         const daysInMonth = getDaysInMonth(month, year);
         const firstDayIndex = new Date(year, month, 1).getDay();
-
         let date = 1;
+
 
         for (let i = 0; i < 6; i++) {
             const daysInWeek = [];
             for (let j = 0; j < 7; j++) {
                 if ((i === 0 && j < firstDayIndex) || date > daysInMonth) {
                     daysInWeek.push(
-                        <td key={`empty-${i}-${j}`}></td>
+                        <td key={`empty-${i}-${j}`}>{ }</td>
                     );
+
                 } else {
                     const currentDayNum = date;
                     const hasData = data.some((d) => {
@@ -50,14 +51,13 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
                             dt.getFullYear() === year
                         );
                     });
-
-
                     daysInWeek.push(
                         <td
                             key={`day-${currentDayNum}`}
-                            className={"border py-8 "}
                             onClick={() => handleDayClick(currentDayNum)}
-                        >
+                            className="p-2 border border-zinc-800/80 cursor-pointer transition-all duration-150 relative align-top h-16 w-1/7 hover:bg-zinc-800/50">
+
+
                             {currentDayNum}
                         </td>
                     );
@@ -71,12 +71,11 @@ export default function Calendrier({ data = [] }: CalendrierProps) {
         }
         return weeks;
     };
-
     return (
-        <div>
+        <div className="text-white h-full w-full">
             <p>Sélection : {selectedDateText || "Aucune"}</p>
-            <table>
-                <tbody>
+            <table className="h-full w-full">
+                <tbody >
                     {renderCalendar()}
                 </tbody>
             </table>
