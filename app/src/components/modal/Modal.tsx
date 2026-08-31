@@ -4,6 +4,7 @@ import Calendrier from "../calendrier/Calendrier";
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { X, ArrowLeft, Clock, User, Phone, Mail } from "lucide-react";
 import { getDate } from "./date.action";
+import { submit } from "./sumbit.action";
 
 interface ModalProps {
     setOpenModal: (open: boolean) => void;
@@ -51,7 +52,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
         return date.result
             .filter((item) => item.date === selectedFullDate && item.heure)
             .map((item, index) => ({
-                id: item.id || `slot-${index}`,
+                id: item.id || `${item.heure}`,
                 hours: item.heure as string,
             }));
     }, [selectedDate, date.result, currentMonthStr, currentYearStr]);
@@ -68,6 +69,21 @@ export default function Modal({ setOpenModal }: ModalProps) {
         const newData = await getDate(formattedM, formattedY);
         setDate(newData);
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const selectedDateStr = String(selectedDate).padStart(2, "0")
+
+        submit(
+            `${currentYearStr}-${currentMonthStr}-${selectedDateStr}`,
+            selectedSlot!,
+            username,
+            email,
+            phone
+        )
+        setOpenModal(false)
+    }
 
     return (
         <div
@@ -114,7 +130,9 @@ export default function Modal({ setOpenModal }: ModalProps) {
                             onMonthChange={handleMonthChange}
                         />
                     ) : (
-                        <div className="flex flex-col justify-center">
+                        <form
+                            className="flex flex-col justify-center"
+                            onSubmit={handleSubmit}>
                             <div className="p-6 flex flex-col items-center gap-4">
                                 <div className="flex flex-col text-white items-center">
                                     <User className="w-10 h-10 mb-1 text-emerald-500" />
@@ -166,11 +184,12 @@ export default function Modal({ setOpenModal }: ModalProps) {
 
                                             return (
                                                 <button
+                                                    type="button"
                                                     key={slot.id}
                                                     onClick={() => setSelectedSlot(String(slot.id))}
                                                     className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all ${isSelected
-                                                            ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
-                                                            : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50"
+                                                        ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
+                                                        : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/50"
                                                         }`}
                                                 >
                                                     <Clock className="size-4" />
@@ -184,9 +203,9 @@ export default function Modal({ setOpenModal }: ModalProps) {
                                         Aucun créneau disponible pour cette date.
                                     </p>
                                 )}
-
                                 <div className="flex justify-end pt-4 border-t border-zinc-800/60">
                                     <button
+                                        type="submit"
                                         disabled={!selectedSlot}
                                         className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-medium hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                                     >
@@ -194,7 +213,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     )}
                 </div>
             </div>

@@ -1,6 +1,27 @@
-import { CheckCircle2, Calendar, ArrowRight } from 'lucide-react';
 
-export default function Page() {
+
+import { CheckCircle2 } from 'lucide-react';
+import { openDb } from "../../../db/db";
+
+
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = await params;
+    try {
+        const db = await openDb();
+
+        await db.run(
+            `UPDATE meting
+             SET confirme = 1
+             WHERE link_confirme = ?`,
+            [id]
+        );
+    } catch (error) {
+
+    }
     return (
         <main className="h-screen w-full bg-zinc-950 flex justify-center items-center p-4">
             <div className="bg-zinc-900 border border-zinc-800 w-full max-w-md p-6 flex flex-col items-center text-center gap-4 rounded-2xl shadow-xl">
@@ -17,3 +38,6 @@ export default function Page() {
         </main>
     );
 }
+
+
+

@@ -14,6 +14,7 @@ interface Meeting {
     name?: string | null;
     email?: string | null;
     phone?: string | null;
+    confirme?: number | null;
 }
 
 export default function Page() {
@@ -69,7 +70,7 @@ export default function Page() {
     const handleMonthChange = async (newMonth: number, newYear: number) => {
         setCurrentMonth(newMonth);
         setCurrentYear(newYear);
-        setSelectedDate(null); 
+        setSelectedDate(null);
         const formattedM = String(newMonth).padStart(2, "0");
         const formattedY = String(newYear);
 
@@ -140,14 +141,24 @@ export default function Page() {
                                         <Clock className="size-3.5" />
                                         <span>{meeting.heure || "Heure non spécifiée"}</span>
                                     </div>
-
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                        <span
+                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${meeting.confirme
+                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                                    : meeting.name
+                                                        ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                                }`}
+                                        >
                                             <CircleDot className="size-3" />
-                                            Confirmé
+                                            {meeting.confirme
+                                                ? "Confirmé"
+                                                : meeting.name
+                                                    ? "Réservé"
+                                                    : "Ouvert"
+                                            }
                                         </span>
                                     </div>
-
                                     {(meeting.name || meeting.email || meeting.phone) && (
                                         <div className="mt-2 pt-3 border-t border-zinc-800/60 text-left">
                                             {meeting.name && (

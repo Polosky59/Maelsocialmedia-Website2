@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface DataItem {
     date?: string;
     heure?: string | null;
- 
+
 }
 
 export interface CalendrierProps {
@@ -104,7 +104,7 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate, o
         }
         setMonth(newM);
         setYear(newY);
-        onMonthChange?.(newM + 1, newY); 
+        onMonthChange?.(newM + 1, newY);
     };
 
     const handleNextMonth = () => {
