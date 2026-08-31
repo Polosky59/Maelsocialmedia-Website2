@@ -14,7 +14,7 @@ export default async function authAction(token: string) {
         return { success: false, error: "token are required." };
     }
     try {
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(token, process.env.JWT_SECRET!);
         console.log(verified)
         return { success: true, error: "Invalid credentials." };
 

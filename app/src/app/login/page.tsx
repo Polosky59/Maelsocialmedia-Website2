@@ -44,8 +44,6 @@ export default function Page() {
                         required
                     />
                 </div>
-
-                {/* Champ Password */}
                 <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
                     <input
@@ -59,7 +57,6 @@ export default function Page() {
                         required
                     />
                 </div>
-
                 <button
                     disabled={!formData.username || !formData.password}
                     className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-medium hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"

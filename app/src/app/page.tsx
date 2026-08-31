@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "../components/modal/Modal";
 import Post from "@/components/Post";
 import Card from "@/components/Card";
+import { getDate } from "../components/modal/date.action";
 
 
 export default function Page() {

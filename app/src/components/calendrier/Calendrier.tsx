@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface DataItem {
     date?: string;
     heure?: string | null;
-    [key: string]: unknown;
+ 
 }
 
 export interface CalendrierProps {
@@ -38,7 +38,6 @@ export default function Calendrier({ data = [], selectedDate, setSelectedDate, o
         const formattedMonth = String(month + 1).padStart(2, "0");
         const formattedDay = String(dayNum).padStart(2, "0");
         const dateStr = `${year}-${formattedMonth}-${formattedDay}`;
-
         return data.filter((item) => item.date === dateStr).length;
     };
 
