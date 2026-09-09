@@ -5,6 +5,15 @@ import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { X, ArrowLeft, Clock, User, Phone, Mail } from "lucide-react";
 import { getDate } from "./date.action";
 import { submit } from "./sumbit.action";
+import * as z from "zod";
+
+const SubmitSchema = z.object({
+    date: z.string(),
+    heure: z.string(),
+    username: z.string(),
+    email: z.email(),
+    phone: z.e164()
+});
 
 interface ModalProps {
     setOpenModal: (open: boolean) => void;
@@ -20,7 +29,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
     const handleClose = () => setOpenModal(false);
     const [selectedDate, setSelectedDate] = useState<number | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
+    
     const [username, setUsername] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
@@ -28,11 +37,11 @@ export default function Modal({ setOpenModal }: ModalProps) {
     const now = new Date();
     const [currentMonth, setCurrentMonth] = useState(now.getMonth() + 1);
     const [currentYear, setCurrentYear] = useState(now.getFullYear());
-
     const [date, setDate] = useState<{ success?: boolean; result?: Meeting[] }>({});
-
     const currentMonthStr = String(currentMonth).padStart(2, "0");
     const currentYearStr = String(currentYear);
+
+    const [messageError, setMessageError] = useState("")
 
     const loadAppointments = useCallback(async (m: string, y: string) => {
         const fetchedData = await getDate(m, y);
@@ -74,15 +83,27 @@ export default function Modal({ setOpenModal }: ModalProps) {
         e.preventDefault()
 
         const selectedDateStr = String(selectedDate).padStart(2, "0")
-
-        submit(
-            `${currentYearStr}-${currentMonthStr}-${selectedDateStr}`,
-            selectedSlot!,
-            username,
-            email,
-            phone
-        )
-        setOpenModal(false)
+        const result = SubmitSchema.safeParse({
+            date: `${currentYearStr}-${currentMonthStr}-${selectedDateStr}`,
+            heure: selectedSlot!,
+            username: username,
+            email: email,
+            phone: phone
+        })
+        if (!result.success) {
+            setMessageError("Les infromations envoyer sont incorrect")
+        }
+        else {
+            submit({
+                date: `${currentYearStr}-${currentMonthStr}-${selectedDateStr}`,
+                heure: selectedSlot!,
+                username: username,
+                email: email,
+                phone: phone
+            }
+            )
+            // setOpenModal(false)
+        }
     }
 
     return (
@@ -155,7 +176,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
                                     <input
                                         id="phone"
                                         type="tel"
-                                        placeholder="Phone"
+                                        placeholder="+3306604030"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                         className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
@@ -167,7 +188,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
                                     <input
                                         id="email"
                                         type="email"
-                                        placeholder="Email"
+                                        placeholder="email@teste.com"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
@@ -203,6 +224,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
                                         Aucun créneau disponible pour cette date.
                                     </p>
                                 )}
+                                <div>{messageError}</div>
                                 <div className="flex justify-end pt-4 border-t border-zinc-800/60">
                                     <button
                                         type="submit"

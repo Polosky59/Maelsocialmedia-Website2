@@ -11,7 +11,7 @@ export async function getDate(month: string, year: string) {
         const targetYear = year ? String(year) : String(now.getFullYear());
 
         const result = await db.all(
-            "SELECT heure, date FROM meting WHERE strftime('%m', date) = ? AND strftime('%Y', date) = ? and confirme = 0",
+            "SELECT heure, date FROM meting WHERE strftime('%m', date) = ? AND strftime('%Y', date) = ? AND confirme = 0 AND name IS NULL ",
             [targetMonth, targetYear]
         );
 
