@@ -26,13 +26,11 @@ export async function submit(data: SubmitType) {
             [validatedData.username, validatedData.email, validatedData.phone, validatedData.date, validatedData.heure]
         );
 
-        // Correction ici : type et propriété correspondent au SELECT (link_confirme)
         const row = await db.get<{ link_confirme: string }>(
             'SELECT link_confirme FROM meting WHERE date = ? AND heure = ?',
             [validatedData.date, validatedData.heure]
         );
 
-        // Gestion propre des slashs d'URL
         const baseUrl = process.env.APP_URL?.endsWith('/') 
             ? process.env.APP_URL 
             : `${process.env.APP_URL}/`;
