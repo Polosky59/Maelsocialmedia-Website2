@@ -18,7 +18,7 @@ export async function addDateAction(date: string, heure: string) {
     }
 }
 
-export async function getDate(month:string, year:string) {
+export async function getDate(month: string, year: string) {
     try {
         const db = await openDb();
 
@@ -36,5 +36,21 @@ export async function getDate(month:string, year:string) {
     } catch (error) {
         console.error("Database error:", error);
         return { success: false, error: "Erreur lors de la récupération des données." };
+    }
+}
+
+
+export async function DellDateAction(date: string, heure: string) {
+    try {
+        const db = await openDb();
+        const result = await db.run(
+            "DELETE FROM meting WHERE date = ? AND heure = ?", 
+            [date, heure]
+        );
+        
+        return { success: true, changes: result.changes };
+    } catch (error) {
+        console.error("Database error:", error);
+        return { success: false, error: "Erreur lors de la suppression." };
     }
 }

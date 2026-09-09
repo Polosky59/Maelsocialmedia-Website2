@@ -5,7 +5,7 @@ import Calendrier from "@/components/calendrier/Calendrier";
 import { Clock, Calendar as CalendarIcon, Plus, Mail, Phone, CircleDot, X, Trash2 } from "lucide-react";
 import authAction from "./auth.action";
 import { useRouter } from "next/navigation";
-import { addDateAction, getDate } from "./Date.Action";
+import { addDateAction, getDate, DellDateAction } from "./Date.Action";
 
 interface Meeting {
     id?: number | string;
@@ -59,11 +59,33 @@ export default function Page() {
         time: ""
     });
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsModalOpen(false);
         await addDateAction(formData.date, formData.time);
+        setFormData({ date: "", time: "" });
+        await loadAppointments(currentMonthStr, currentYearStr);
+    };
+
+    const handleDelete = async (meetingDate: string, meetingHeure: string) => {
+        if (!confirm("Voulez-vous vraiment supprimer ce rendez-vous ?")) return;
+
+        const targetTime = meetingHeure || "";
+
+        // Mise à jour optimiste du state local
+        setDate((prev) => ({
+            ...prev,
+            result: prev.result?.filter(
+                (m) => !(m.date === meetingDate && (m.heure || "") === targetTime)
+            )
+        }));
+
+        const response = await DellDateAction(meetingDate, targetTime);
+
+        if (!response?.success) {
+            alert(response?.error || "Erreur lors de la suppression.");
+        }
+
         await loadAppointments(currentMonthStr, currentYearStr);
     };
 
@@ -88,7 +110,9 @@ export default function Page() {
 
     if (isLoading) {
         return (
-            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center"></main>
+            <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex items-center justify-center">
+                <div className="size-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            </main>
         );
     }
 
@@ -122,7 +146,7 @@ export default function Page() {
                             </div>
                         ) : (
                             selectedAppointments.map((meeting, index) => (
-                                <div key={meeting.id || index} className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
+                                <div key={meeting.id || `${meeting.date}-${meeting.heure}-${index}`} className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
                                     <div className="flex items-center justify-between text-indigo-400 text-sm font-medium">
                                         <div className="flex items-center gap-2">
                                             <CalendarIcon className="size-4" />
@@ -130,7 +154,8 @@ export default function Page() {
                                         </div>
                                         <button
                                             type="button"
-                                            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 transition-colors"
+                                            onClick={() => handleDelete(meeting.date, meeting.heure)}
+                                            className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                             title="Supprimer"
                                         >
                                             <Trash2 className="size-4" />
@@ -139,8 +164,9 @@ export default function Page() {
 
                                     <div className="flex items-center gap-2 text-zinc-400 text-xs">
                                         <Clock className="size-3.5" />
-                                        <span>{meeting.heure || "Heure non spécifiée"}</span>
+                                        <span>{meeting.heure}</span>
                                     </div>
+
                                     <div className="flex items-center gap-2">
                                         <span
                                             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${meeting.confirme
@@ -159,6 +185,7 @@ export default function Page() {
                                             }
                                         </span>
                                     </div>
+
                                     {(meeting.name || meeting.email || meeting.phone) && (
                                         <div className="mt-2 pt-3 border-t border-zinc-800/60 text-left">
                                             {meeting.name && (
@@ -239,7 +266,7 @@ export default function Page() {
                                 >
                                     Annuler
                                 </button>
-                                <button type="submit" className="px-3 py-1.5 text-xs font-medium bg-emerald-600 text-white rounded-lg">
+                                <button type="submit" className="px-3 py-1.5 text-xs font-medium bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">
                                     Ajouter
                                 </button>
                             </div>

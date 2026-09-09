@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
     const [formData, setFormData] = useState({ username: "", password: "" });
+    const [messageError, setMessageError] = useState("")
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +20,9 @@ export default function Page() {
         if (auth.success && auth.token) {
             localStorage.setItem("accessToken", auth.token);
             router.push("/admin");
+        }
+        else {
+            setMessageError("Username or password incorect")
         }
     }
 
@@ -57,10 +61,12 @@ export default function Page() {
                         required
                     />
                 </div>
+                <p className='text-red-500'>
+                    {messageError}
+                </p>
                 <button
                     disabled={!formData.username || !formData.password}
-                    className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-medium hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                >
+                    className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-medium hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
                     Connection
                 </button>
             </form>

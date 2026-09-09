@@ -53,16 +53,16 @@ export default function Page() {
             <p>Tarifs simples, adaptés à vos besoins</p>
           </div>
           <p className="card-text">
-            Chez Maël Social Media,{" "}
+            Chez Maël Social Media,
             <strong>
               <span>chaque entreprise a des besoins différents</span>
             </strong>
             .<br />
             <br />
-            C’est pourquoi je propose des prestations{" "}
+            C’est pourquoi je propose des prestations
             <strong>
               <span>adaptées à votre activité</span>
-            </strong>{" "}
+            </strong>
             et à vos objectifs :<br />
             <br />
             📱 Gestion des réseaux sociaux
@@ -75,13 +75,13 @@ export default function Page() {
             <br />
             Que vous soyez indépendant, commerçant, artisan ou entreprise,
             l’objectif reste le même : vous aider à développer votre présence sur
-            les réseaux sociaux{" "}
+            les réseaux sociaux
             <strong>
               <span>sans vous compliquer la vie</span>
             </strong>
             .<br />
             <br />
-            💬{" "}
+            💬
             <strong>
               <span>Besoin d’un accompagnement ?</span>
             </strong>
