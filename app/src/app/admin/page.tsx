@@ -72,7 +72,6 @@ export default function Page() {
 
         const targetTime = meetingHeure || "";
 
-        // Mise à jour optimiste du state local
         setDate((prev) => ({
             ...prev,
             result: prev.result?.filter(
@@ -117,9 +116,10 @@ export default function Page() {
     }
 
     return (
-        <main className="h-screen w-full bg-zinc-950 text-zinc-100 flex p-6 gap-6 font-sans relative">
-            <div className="flex-[3] bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-6 flex gap-6 shadow-2xl overflow-hidden">
-                <div className="flex-[3] flex flex-col h-full">
+        <main className="min-h-screen lg:h-screen w-full bg-zinc-950 text-zinc-100 p-4 sm:p-6 font-sans relative flex flex-col justify-center">
+            <div className="flex-1 bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col lg:flex-row gap-6 shadow-2xl overflow-hidden">
+                {/* Section Calendrier */}
+                <div className="flex-1 lg:flex-[3] flex flex-col min-h-[350px] lg:h-full overflow-hidden">
                     <Calendrier
                         selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}
@@ -128,14 +128,16 @@ export default function Page() {
                     />
                 </div>
 
-                <div className="w-[1px] bg-zinc-800/80 my-2" />
+                {/* Séparateur adaptatif */}
+                <div className="h-[1px] lg:h-auto lg:w-[1px] bg-zinc-800/80 my-1 lg:my-2" />
 
-                <div className="flex-1 flex flex-col gap-4 h-full overflow-hidden">
+                {/* Section Programme */}
+                <div className="flex-1 flex flex-col gap-4 min-h-[300px] lg:h-full overflow-hidden">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 px-1">
                         Programme {selectedDate ? `du ${selectedDate}` : ""}
                     </h3>
 
-                    <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1">
+                    <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1 max-h-[400px] lg:max-h-none">
                         {!selectedDate ? (
                             <div className="flex-1 flex items-center justify-center text-xs text-zinc-500 text-center p-4">
                                 Sélectionnez un jour sur le calendrier pour voir les rendez-vous.
@@ -149,8 +151,8 @@ export default function Page() {
                                 <div key={meeting.id || `${meeting.date}-${meeting.heure}-${index}`} className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl flex flex-col gap-3">
                                     <div className="flex items-center justify-between text-indigo-400 text-sm font-medium">
                                         <div className="flex items-center gap-2">
-                                            <CalendarIcon className="size-4" />
-                                            <span>{meeting.date}</span>
+                                            <CalendarIcon className="size-4 shrink-0" />
+                                            <span className="truncate">{meeting.date}</span>
                                         </div>
                                         <button
                                             type="button"
@@ -163,20 +165,20 @@ export default function Page() {
                                     </div>
 
                                     <div className="flex items-center gap-2 text-zinc-400 text-xs">
-                                        <Clock className="size-3.5" />
+                                        <Clock className="size-3.5 shrink-0" />
                                         <span>{meeting.heure}</span>
                                     </div>
 
                                     <div className="flex items-center gap-2">
                                         <span
                                             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${meeting.confirme
-                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                                                    : meeting.name
-                                                        ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                                                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                                : meeting.name
+                                                    ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                                    : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                                                 }`}
                                         >
-                                            <CircleDot className="size-3" />
+                                            <CircleDot className="size-3 shrink-0" />
                                             {meeting.confirme
                                                 ? "Confirmé"
                                                 : meeting.name
@@ -194,15 +196,15 @@ export default function Page() {
                                                 </p>
                                             )}
                                             {meeting.email && (
-                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
-                                                    <Mail className="size-3.5 mr-1" />
-                                                    <p>Email : {meeting.email}</p>
+                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center gap-1 truncate">
+                                                    <Mail className="size-3.5 shrink-0" />
+                                                    <span className="truncate">Email : {meeting.email}</span>
                                                 </div>
                                             )}
                                             {meeting.phone && (
-                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center">
-                                                    <Phone className="size-3.5 mr-1" />
-                                                    <p>Tél : {meeting.phone}</p>
+                                                <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center gap-1">
+                                                    <Phone className="size-3.5 shrink-0" />
+                                                    <span>Tél : {meeting.phone}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -214,7 +216,7 @@ export default function Page() {
 
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="mt-auto flex items-center justify-center gap-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 p-2.5 rounded-xl text-sm font-medium transition-colors"
+                        className="mt-auto flex items-center justify-center gap-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 p-2.5 rounded-xl text-sm font-medium transition-colors w-full"
                     >
                         <Plus className="size-4" />
                         Nouveau RDV
@@ -222,9 +224,10 @@ export default function Page() {
                 </div>
             </div>
 
+            {/* Modal Responsive */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 sm:p-6 shadow-2xl space-y-4">
                         <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
                             <h2 className="text-base font-semibold text-zinc-100">Nouveau Rendez-vous</h2>
                             <button
@@ -236,7 +239,7 @@ export default function Page() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label className="block text-xs font-medium text-zinc-400 mb-1">Date</label>
                                     <input

@@ -1,20 +1,21 @@
 "use client"
+import React from 'react';
 
 import { useState } from "react";
 import Modal from "../components/modal/Modal";
 import Post from "@/components/Post";
 import Card from "@/components/Card";
-import { getDate } from "../components/modal/date.action";
 
+import mainLogo from '../asset/logo_long.png';
 
 export default function Page() {
   const [openModal, setOpenModal] = useState(false)
 
-  return (<>
+  return (
     <>
       <div className="bg" />
       <nav>
-        <img src="./public/asset/logo_long.png" height="30px" />
+        <img src={mainLogo.src} alt="Logo" className='h-6' />
       </nav>
       <section className="header-container">
         <div className="header-container-title">
@@ -91,9 +92,22 @@ export default function Page() {
           </p>
         </div>
       </section>
-      {
-        openModal && <Modal setOpenModal={setOpenModal} />
-      }
+
+      {/* Footer Tailwind CSS */}
+      <footer className="w-full bg-zinc-950 text-zinc-400 border-t border-zinc-800/80 mt-30">
+        <div className="border-t border-zinc-900 bg-zinc-950/80 py-6">
+          <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+            <p>© {new Date().getFullYear()} Maël Social Media. Tous droits réservés.</p>
+            <div className="flex gap-6">
+              <p>
+                Created by Norvoxx from EPI STUDIO
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {openModal && <Modal setOpenModal={setOpenModal} />}
     </>
-  </>);
+  );
 }
