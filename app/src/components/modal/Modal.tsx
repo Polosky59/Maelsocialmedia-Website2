@@ -29,7 +29,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
     const handleClose = () => setOpenModal(false);
     const [selectedDate, setSelectedDate] = useState<number | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-    
+
     const [username, setUsername] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
@@ -79,7 +79,7 @@ export default function Modal({ setOpenModal }: ModalProps) {
         setDate(newData);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         const selectedDateStr = String(selectedDate).padStart(2, "0")

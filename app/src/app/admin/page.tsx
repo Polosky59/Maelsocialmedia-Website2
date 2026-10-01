@@ -156,7 +156,7 @@ export default function Page() {
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => handleDelete(meeting.date, meeting.heure)}
+                                            onClick={() => handleDelete(meeting.date, meeting.heure ?? "")}
                                             className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                             title="Supprimer"
                                         >

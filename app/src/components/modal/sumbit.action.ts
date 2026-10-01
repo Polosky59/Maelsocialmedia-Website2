@@ -60,8 +60,7 @@ export async function submit(data: SubmitType) {
         return { success: true };
     } catch (error) {
         if (error instanceof z.ZodError) {
-            console.error("Erreur de validation Zod :", error.errors);
-            return { success: false, error: error.errors[0].message };
+            return { success: false, error: error.issues };
         }
         console.error("Erreur dans la Server Action :", error);
         return {
