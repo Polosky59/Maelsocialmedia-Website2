@@ -13,9 +13,11 @@ if (!JWT_SECRET) {
 }
 
 const createToken = (payload: object, options: jwt.SignOptions = {}): string => {
-  return jwt.sign(payload, JWT_SECRET, {
-    ...options,
-  });
+  return jwt.sign(
+    { userId: "123", email: "test@mail.com" },
+    process.env.JWT_SECRET!,
+    { expiresIn: "1h" }
+  );
 };
 
 export default async function loginAction(name: string, pwd: string) {
@@ -30,7 +32,7 @@ export default async function loginAction(name: string, pwd: string) {
   const isAdminPassword = trimmedPwd === process.env.ADMIN_PASSWORD;
 
   if (isAdminUser && isAdminPassword) {
-    const token = createToken({  });
+    const token = createToken({});
     return { success: true, token };
   }
 

@@ -94,6 +94,8 @@ export default function Modal({ setOpenModal }: ModalProps) {
             setMessageError("Les infromations envoyer sont incorrect")
         }
         else {
+            setMessageError("")
+            setOpenModal(false)
             submit({
                 date: `${currentYearStr}-${currentMonthStr}-${selectedDateStr}`,
                 heure: selectedSlot!,
@@ -102,7 +104,6 @@ export default function Modal({ setOpenModal }: ModalProps) {
                 phone: phone
             }
             )
-            // setOpenModal(false)
         }
     }
 

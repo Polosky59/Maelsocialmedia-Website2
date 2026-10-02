@@ -1,5 +1,4 @@
 @import "tailwindcss";
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap'); */
 
 :root {
      --bg-primary: #18181a;
@@ -84,21 +83,24 @@ nav {
      color: var(--text-primary);
 }
 
+.header-container-title > p {
+    margin: 10px 0;
+    font-size: clamp(0.9rem, 4vw, 1.5rem); /* min augmenté */
+    
+    color: rgb(211, 210, 210);
 
-.header-container-title>p {
-     margin: 10px 0;
-     font-size: clamp(0.5rem, 1.5vw, 1.5rem);
-     color: var(--text-primary);
 }
 
-body .header-container-title>h1 {
-     font-family: Arial, Helvetica, sans-serif;
-     font-weight: lighter;
-     font-size: clamp(1.5rem, 8vw, 5rem);
+body .header-container-title > h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.1em !important;
 
-     text-transform: uppercase;
-     letter-spacing: 0.01em;
-     line-height: 0.9;
+    font-size: clamp(2.2rem, 12vw, 5rem); /* min augmenté */
+
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.9;
 }
 
 .cta-btn {
@@ -271,7 +273,8 @@ body .header-container-title>h1 {
           gap: 150px;
           margin: 0 10%;
      }
-     .card{
+
+     .card {
           width: 100%;
      }
 }

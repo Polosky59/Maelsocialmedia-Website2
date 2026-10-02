@@ -27,33 +27,6 @@ export default function Post() {
                         </defs>
                     </svg>
                 </div>
-
-                {/* <div className="viewPreformance">
-                    <h2>Statistiques du compte</h2>
-                    <p className="stat-period">Derniers 30 jours</p>
-                    <div className="stats-grid">
-                        <div className="stat-item">
-                            <span className="stat-label">Comptes touchés</span>
-                            <span className="stat-value">+12.4k</span>
-                            <span className="stat-trend">↑ 24%</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Interactions</span>
-                            <span className="stat-value">1,852</span>
-                            <span className="stat-trend">↑ 12%</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Enregistrements</span>
-                            <span className="stat-value">428</span>
-                            <span className="stat-trend">↑ 8%</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Taux d'engagement</span>
-                            <span className="stat-value">5.8%</span>
-                            <span className="stat-trend">↑ 2.1%</span>
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </>
     )

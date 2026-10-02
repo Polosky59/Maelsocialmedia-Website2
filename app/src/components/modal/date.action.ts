@@ -1,23 +1,39 @@
 "use server";
 
-import { openDb } from "../../db/db";
+import { db } from "@/db";
+import { meetings } from "@/db/schema";
+import { and, eq, isNull, sql } from "drizzle-orm";
 
-export async function getDate(month: string, year: string) {
-    try {
-        const db = await openDb();
+export async function getDate(month?: string, year?: string) {
+  try {
+    const now = new Date();
 
-        const now = new Date();
-        const targetMonth = month ? String(month).padStart(2, '0') : String(now.getMonth() + 1).padStart(2, '0');
-        const targetYear = year ? String(year) : String(now.getFullYear());
+    const targetMonth = month ? Number(month) : now.getMonth() + 1;
+    const targetYear = year ? Number(year) : now.getFullYear();
+    const start = new Date(targetYear, targetMonth - 1, 1);
+    const end = new Date(targetYear, targetMonth, 1);
 
-        const result = await db.all(
-            "SELECT heure, date FROM meting WHERE strftime('%m', date) = ? AND strftime('%Y', date) = ? AND confirme = 0 AND name IS NULL ",
-            [targetMonth, targetYear]
-        );
+    const result = await db
+      .select({
+        heure: meetings.heure,
+        date: meetings.date,
+      })
+      .from(meetings)
+      .where(
+        and(
+          sql`${meetings.date} >= ${start}`,
+          sql`${meetings.date} < ${end}`,
+          eq(meetings.confirme, 0),
+          isNull(meetings.name)
+        )
+      );
 
-        return { success: true, result };
-    } catch (error) {
-        console.error("Database error:", error);
-        return { success: false, error: "Erreur lors de la récupération des données." };
-    }
+    return { success: true, result };
+  } catch (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      error: "Erreur lors de la récupération des données.",
+    };
+  }
 }
