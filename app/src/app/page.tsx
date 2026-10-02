@@ -5,7 +5,8 @@ import { useState } from "react";
 import Modal from "../components/modal/Modal";
 import Post from "@/components/Post";
 import Card from "@/components/Card";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faInstagram,faLinkedin,} from '@fortawesome/free-brands-svg-icons';
 import mainLogo from '../asset/logo_long.png';
 
 export default function Page() {
@@ -25,14 +26,11 @@ export default function Page() {
           </h1>
           <p>La gestion de communauté qui fait grandir votre business</p>
           <div className="social-links">
-            <a href="#" target="_blank" aria-label="Instagram">
-              <i className="fab fa-instagram" />
+            <a href="https://www.instagram.com/maelsocialmedia/" target="_blank">
+              <FontAwesomeIcon icon={faInstagram} />
             </a>
-            <a href="#" target="_blank" aria-label="Twitter">
-              <i className="fab fa-twitter" />
-            </a>
-            <a href="#" target="_blank" aria-label="TikTok">
-              <i className="fab fa-tiktok" />
+            <a href="https://www.linkedin.com/in/mael-santier-07b175409/" target="_blank">
+              <FontAwesomeIcon icon={faLinkedin} />
             </a>
           </div>
           <button

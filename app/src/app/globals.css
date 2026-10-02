@@ -87,7 +87,7 @@ nav {
     margin: 10px 0;
     font-size: clamp(0.9rem, 4vw, 1.5rem); /* min augmenté */
     
-    color: rgb(211, 210, 210);
+    color: rgb(184, 179, 179);
 
 }
 
@@ -96,7 +96,7 @@ body .header-container-title > h1 {
     font-weight: 500;
     letter-spacing: -0.1em !important;
 
-    font-size: clamp(2.2rem, 12vw, 5rem); /* min augmenté */
+    font-size: clamp(3.2rem, 12vw, 5rem); /* min augmenté */
 
     text-transform: uppercase;
     letter-spacing: 0.01em;
