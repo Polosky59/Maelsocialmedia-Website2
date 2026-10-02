@@ -3,8 +3,8 @@ import { pgTable, serial, text, integer } from "drizzle-orm/pg-core";
 export const meetings = pgTable("meetings", {
   id: serial("id").primaryKey(),
 
-  date: text("date"),
-  heure: text("heure"),
+  date: text("date").notNull(),
+  heure: text("heure").notNull(),
 
   name: text("name"),
   email: text("email"),

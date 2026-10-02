@@ -128,10 +128,8 @@ export default function Page() {
                     />
                 </div>
 
-                {/* Séparateur adaptatif */}
                 <div className="h-[1px] lg:h-auto lg:w-[1px] bg-zinc-800/80 my-1 lg:my-2" />
 
-                {/* Section Programme */}
                 <div className="flex-1 flex flex-col gap-4 min-h-[300px] lg:h-full overflow-hidden">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 px-1">
                         Programme {selectedDate ? `du ${selectedDate}` : ""}
@@ -224,7 +222,6 @@ export default function Page() {
                 </div>
             </div>
 
-            {/* Modal Responsive */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
                     <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 sm:p-6 shadow-2xl space-y-4">
