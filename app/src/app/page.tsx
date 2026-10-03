@@ -90,8 +90,6 @@ export default function Page() {
           </p>
         </div>
       </section>
-
-      {/* Footer Tailwind CSS */}
       <footer className="w-full bg-zinc-950 text-zinc-400 border-t border-zinc-800/80 mt-30">
         <div className="border-t border-zinc-900 bg-zinc-950/80 py-6">
           <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
