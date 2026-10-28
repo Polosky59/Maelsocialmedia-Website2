@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import favicon from "./favicon.png"
 
 // Pas de font custom ?
 const geistSans = Geist({
@@ -16,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
      title: "Mael Social Media",
      description: "Boostez votre présence en ligne chez Mael Social Media",
+     icons: {
+          icon: favicon.src,
+     },
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
