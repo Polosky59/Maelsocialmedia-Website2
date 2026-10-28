@@ -1,11 +1,11 @@
 {
-  "id": "f3c035ec-567a-42ff-8395-69c220c40625",
+  "id": "a0e9b2b8-403f-49c0-8718-57b68139cc0b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users": {
-      "name": "users",
+    "public.meetings": {
+      "name": "meetings",
       "schema": "",
       "columns": {
         "id": {
@@ -14,35 +14,59 @@
           "primaryKey": true,
           "notNull": true
         },
+        "date": {
+          "name": "date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "heure": {
+          "name": "heure",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "phone": {
+          "name": "phone",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": false
+        },
+        "confirme": {
+          "name": "confirme",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "link_confirme": {
+          "name": "link_confirme",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_email_unique": {
-          "name": "users_email_unique",
+        "meetings_link_confirme_unique": {
+          "name": "meetings_link_confirme_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "email"
+            "link_confirme"
           ]
         }
       },
