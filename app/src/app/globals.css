@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* Trop de classes, utilise tailwind dans le fichier !  */
 
 :root {
      --bg-primary: #18181a;
@@ -84,23 +85,22 @@ nav {
 }
 
 .header-container-title > p {
-    margin: 10px 0;
-    font-size: clamp(0.9rem, 4vw, 1.5rem); /* min augmenté */
-    
-    color: rgb(184, 179, 179);
+     margin: 10px 0;
+     font-size: clamp(0.9rem, 4vw, 1.5rem); /* min augmenté */
 
+     color: rgb(184, 179, 179);
 }
 
 body .header-container-title > h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.1em !important;
+     font-family: Arial, Helvetica, sans-serif;
+     font-weight: 500;
+     letter-spacing: -0.1em !important;
 
-    font-size: clamp(3.2rem, 12vw, 5rem); /* min augmenté */
+     font-size: clamp(3.2rem, 12vw, 5rem); /* min augmenté */
 
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    line-height: 0.9;
+     text-transform: uppercase;
+     letter-spacing: 0.01em;
+     line-height: 0.9;
 }
 
 .cta-btn {
@@ -236,8 +236,6 @@ body .header-container-title > h1 {
      box-shadow: 7px 2px 50px -9px rgba(0, 0, 0, 0.79);
 }
 
-
-
 .card-container {
      padding-top: 8rem;
 
@@ -316,7 +314,7 @@ body .header-container-title > h1 {
      color: #64748b;
 }
 
-.card-header>p {
+.card-header > p {
      color: gray;
 }
 

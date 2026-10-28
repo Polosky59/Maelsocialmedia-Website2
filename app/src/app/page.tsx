@@ -14,6 +14,7 @@ export default function Page() {
 
   return (
     <>
+    {/* Tirer avantage de Tailwind CSS: inclure le CSS directement */}
       <div className="bg" />
       <nav>
         <img src={mainLogo.src} alt="Logo" className='h-6' />
@@ -56,6 +57,7 @@ export default function Page() {
             <strong>
               <span>chaque entreprise a des besoins différents</span>
             </strong>
+            {/* Pourquoi pas une liste flex ?  */}
             .<br />
             <br />
             C’est pourquoi je propose des prestations
