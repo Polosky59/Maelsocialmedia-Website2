@@ -5,7 +5,7 @@ import { defineConfig } from "drizzle-kit"
 
 const configDir = dirname(fileURLToPath(import.meta.url))
 
-loadEnv({ path: resolve(configDir, "../.env") })
+loadEnv({ path: resolve(configDir, ".env") })
 
 export default defineConfig({
      schema: resolve(configDir, "./src/db/schema.ts"),

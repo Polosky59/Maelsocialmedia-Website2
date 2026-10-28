@@ -2,8 +2,8 @@ import path from "path"
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 
-// dans la config actuelle, .. est nécessaire vu que le .env est à la root
-dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") })
+// Le fichier .env est à la racine de l'application
+dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
 const JWT_SECRET = process.env.JWT_SECRET
 
